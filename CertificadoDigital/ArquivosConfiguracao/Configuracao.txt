@@ -1,0 +1,104 @@
+* Utilizando os projetos:
+
+"https://github.com/nubiofs/demoiselle-loginmodule.git"
+
+"https://github.com/nubiofs/certificate.git"
+
+para realizar autenticação via certificado digital no projeto "bookmark"
+
+"archetype: demoiselle-jsf-jpa; version: 2.3.4"
+(https://repo1.maven.org/maven2/archetype-catalog.xml)
+
+em:
+
+https://github.com/nubiofs/estudo/tree/master/CertificadoDigital/bookmarks
+https://github.com/nubiofs/estudo/tree/master/CertificadoDigital/demoiselle-loginmodule
+https://github.com/nubiofs/estudo/tree/master/CertificadoDigital/certificate
+
+==========================================================================================
+
+(CONFIGURAÇÃO DE AMBIENTE)
+* Versões dos sistemas (/home/clenubio/Desenvolvimento/SNCR-CertificadoDigital):
+
+jboss-eap-6.1.0
+(Obs.: O jboss eap 6.1 depende da versão 1.7 do jdk para rodar)
+
+jdk-7u80-linux-x64
+
+apache-maven-3.1.0
+
+Workspace para
+Eclipse Java EE IDE for Web Developers.
+Version: Neon Release Candidate 1 (4.6.0RC1)
+Build id: 20160519-1933
+(Obs.: 
+Eclipse rodando com "em eclipse.ini": 
+-vm
+/home/clenubio/Desenvolvimento/jdk1.8.0_92/bin/java
+)
+
+(Installing -> Jboss Server EAP Tools - extension "Na tela criação servidor e buscar (redhat)")
+Obs.: Pois o Neon ainda (em 21-05-2016) não tinha versão do Jboss Tools no marketplace
+
+==========================================================================================
+
+** Configuração (bookmarks):
+
+$ mvn archetype:generate
+$ Choose a number: 17
+$ Choose a number: 7
+
+$ cd bookmarks
+
+$ mvn eclipse:eclipse
+
+...
+
+No eclipse:
+>> File >> Import... >> General >> Existing Projects in Workspace >> Next
+
+ou
+
+>> Import Maven Project
+
+Configure >> Convert to Maven Project
+
+>>> http://localhost:8080/bookmarks/index.jsf
+
+==========================================================================================
+
+** Configuração (demoiselle-loginmodule):
+
+para falta de obtenção da dependência:
+
+<dependency>
+            <groupId>javax.security</groupId>
+            <artifactId>jacc</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+</dependency>
+
+download: 
+
+https://maven-us.nuxeo.org/nexus/content/repositories/public/javax/security/jacc/1.0/
+http://mvnrepository.com/artifact/javax.security/jacc/1.0
+
+Obs.:
+installing 3rd party JARs:
+
+mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> \
+    -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+
+--
+
+$ mvn install:install-file -Dfile=./jacc-1.0.jar -DgroupId=javax.security -DartifactId=jacc -Dversion=1.0 -Dpackaging=jar
+
+...
+[INFO] Installing /home/clenubio/Desenvolvimento/SNCR-CertificadoDigital/jacc-1.0.jar to /home/clenubio/.m2/repository/javax/security/jacc/1.0/jacc-1.0.jar
+
+>> No eclipse "Maven Update" e "clean install" para os três projetos (loginmodule; loginmodule-build; loginmodule-reference)...
+
+==========================================================================================
+
+
+

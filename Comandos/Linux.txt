@@ -1,0 +1,475 @@
+https://www.ostechnix.com/create-animated-gif-ubuntu-16-04/
+https://github.com/fiji/fiji.github.io
+
+
+* Scheduling a shutdown run the command:
+
+$ sudo shutdown -P +90
+
+Obs.: use 'shutdown -c' to cancel.
+
+** Novos tipos de terminais linux:
+
+https://rodrigocarran.wordpress.com/2017/05/30/15-melhores-emuladores-de-terminal-para-linux/
+
+1) roxterm
+http://roxterm.sourceforge.net/index.php?page=installation&lang=en
+https://www.howtoinstall.co/en/ubuntu/xenial/roxterm
+
+$ sudo apt-get install roxterm
+
+2) terminix
+http://blog.programster.org/ubuntu-16-04-install-terminix
+http://www.edivaldobrito.com.br/instalar-o-emulador-de-terminal-terminix/
+http://www.webupd8.org/2016/07/terminix-now-available-in-ppa-for.html
+https://gnunn1.github.io/tilix-web/#features
+
+-- Instalação "https://www.edivaldobrito.com.br/instalar-o-emulador-de-terminal-terminix/"
+
+-> http://www.fascinatingcaptain.com/projects/do-more-in-the-linux-terminal-with-tilix/
+-> https://www.maketecheasier.com/customize-linux-terminal-pokemon-skins/
+-> https://github.com/storm119/Tilix-Themes
+-> https://itsfoss.com/tilix-terminal-emulator/
+
+
+$ sudo add-apt-repository ppa:webupd8team/terminix -y
+$ sudo apt update
+$ sudo apt install terminix -y
+"ou"
+#sudo apt install tilix
+
+-- Execução:
+
+$ tilix & 
+
+-- Removação
+
+$ sudo add-apt-repository ppa:webupd8team/terminix -r -y
+$ sudo apt-get remove tilix
+$ sudo apt-get autoremove
+
+**  Abrir um terminal (para execultar comandos):
+
+atalho --> ctrl + alt + t
+
+** Abrir / procurar programas:
+
+$ gnome-panel-control --run-dialog
+
+* O Unity Tweak Tool é uma das melhores ferramentas para fazer ajustes na interface Unity:
+
+sudo apt install unity-tweak-tool
+
+ou
+
+apt://unity-tweak-tool
+
+* Mecanismo de busca visual:
+
+ gnome-search-tool --path=.
+
+** Recaregar atualização em arquivo bashrc:
+
+$ source .bashrc
+
+** Ferramenta busca de arquivos:
+
+$ sudo apt-get install gnome-search-tool
+
+** Buscando arquivos (pelo conteúdo contido no mesmo):
+
+grep -R -H -i " Git " ./ >> ver.txt
+
+grep -R  "Meu Texto" /home/blablabla/ | cut -d: -f1 | uniq
+
+** Criando links simbólicos:
+
+ln -s /local/do/exec /local/onde/ficará/o/link/do/exec
+
+** Criando lançadores (ubuntu debian):
+
+dica em -> http://www.akkiri.com/dicas/criarlancador.php
+
+$ sudo apt-get install gnome-panel
+
+$ sudo gnome-desktop-item-edit /usr/share/applications/ --create-new
+
+    sudo : dará poderes de administrador (super user do)
+
+    gnome-desktop-item-edit: programa que será executado
+
+    /usr/share/applications/ : local onde será criado o lançador / atalho
+
+    -- create-new : cria novo lançador / atalho
+
+**  Descobrindo a data de criação de um Arquivo
+
+$ ls -i sample_pg_inserts.json 
+
+> 1573084 sample_pg_inserts.json
+
+$ debugfs -R 'stat <1573084>' /dev/sda6
+
+ctime: 0x58ebaf90:8e382544 -- Mon Apr 10 13:15:12 2017
+ atime: 0x58ebaa1c:7ea592d8 -- Mon Apr 10 12:51:56 2017
+ mtime: 0x58ebaf90:8e382544 -- Mon Apr 10 13:15:12 2017
+--> crtime: 0x58ebaa1c:7ea592d8 -- Mon Apr 10 12:51:56 2017
+
+** SSH entre host e hospedeiro (virtualbox)
+
+- No Ubuntu (host):
+
+Selecione a Virtual Machine > Configurações > Rede 
+
+
+>     Configure o adaptador como NAT
+>     Clique em Redirecionamento de Portas
+
+definir as seguintes configurações:
+
+IP do hospedeiro (Sua máquina): 127.0.0.1
+Porta do hospedeiro(Sua máquina): 2222
+IP do Convidado (Máquina Virtual): 10.0.2.15 
+Porta do Convidado (Máquina Virtual): 22
+
+$ ssh root@127.0.0.1 -p 2222
+
+- No Virtualbox (ubuntu hospedeiro):
+
+$ sudo apt-get install openssh-server
+
+$ sudo service ssh status
+
+ou
+
+$ /etc/init.d/ssh status
+
+** remove old kernel
+
+First check your kernel version, so you won't delete the in-use kernel image, running:
+
+1) uname -r
+
+2) 
+
+(Via ubuntu-tweak) 
+
+Baixar arquivo .deb "http://ubuntu-tweak.com/" "https://launchpad.net/ubuntu-tweak/0.8.x/0.8.7/+download/ubuntu-tweak_0.8.7-1%7Etrusty2_all.deb" ou
+
+$ sudo add-apt-repository ppa:tualatrix/ppa
+$ sudo apt-get update
+$ sudo apt-get install ubuntu-tweak
+
+==> "Janitor" ==> "System" ==> "Old Kernel" ==> "clean"
+
+ou 
+
+(Via comandos):
+
+Now run this command for a list of installed kernels:
+
+sudo dpkg --list 'linux-image*'
+
+and delete the kernels you don't want/need anymore by running this:
+
+sudo apt-get remove linux-image-VERSION
+
+Replace VERSION with the version of the kernel you want to remove.
+
+When you're done removing the older kernels, you can run this to remove ever packages you won't need anymore:
+
+sudo apt-get autoremove
+
+And finally you can run this to update grub kernel list:
+
+sudo update-grub
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+*** utilizando ab (apache2-utils) ***
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+http://todsul.com/tech/install-and-test-with-apache-bench/
+
+* exemplo:
+
+ab -k -n 50000 -c 100 -t 20 http://example.com/
+
+** Utilizado:
+
+ab -k -n 50000000 -c 10000 -t 5 http://127.0.0.1:1337/
+>socket: Too many open files (24)
+
+***
+
+* Montar o disco J no linux (via comando prompt):
+
+nautilus smb://10.200.220.66/atrce_aplicati
+
+* Mostrar processos Zumbis:
+
+ps -aux | awk '{print $8 " " $2}' | grep Z
+
+* Buscando e removendo arquivos/diretorios:
+
+find -wholename '*/CVS/Base' | xargs rmdir
+find -wholename '*/CVS/Baserev' | xargs rm
+
+fonte: (http://polishlinux.org/console/regular-expressions-and-search-patterns/)
+
+* Buscas via prompt:
+
+find /home/02963357460/ -type f -iname "*{.mp3,.MP3,.mp4,.MP4}" 
+
+find /home/02963357460/ -iname '*.mp3'
+
+
+*.mp3, *.mp4, *.wma, *.aac, *.ogg, *.ac3, *.wav, *.wmv, *.wav
+*.MP3, *.MP4, *.WMA, *.AAC, *.OGG, *.AC3, *.WAV, *.WMV, *.WAV
+
+*.avi, *.mpeg, *.mov, *.rmvb, *.mkv, *.mpg, *.flv
+*.AVI, *.MPEG, *.MOV, *.RMVB, *.MKV, *.MPG, *.FLV
+
+*.bmp, *.gif, *.jpeg, *.png
+*.BMP, *.GIF, *.JPEG, *.PNG
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+02963357460@serpro-1455337:~$ chmod +x arqs
+02963357460@serpro-1455337:~$ ./arqs 
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxx  arqs xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+find /home/02963357460/ -iname '*.mp3' >> ver.txt
+find /home/02963357460/ -iname '*.mp4' >> ver.txt
+find /home/02963357460/ -iname '*.wma' >> ver.txt
+find /home/02963357460/ -iname '*.aac' >> ver.txt
+find /home/02963357460/ -iname '*.ogg' >> ver.txt
+find /home/02963357460/ -iname '*.ac3' >> ver.txt
+find /home/02963357460/ -iname '*.wav' >> ver.txt
+find /home/02963357460/ -iname '*.wmv' >> ver.txt
+find /home/02963357460/ -iname '*.wav' >> ver.txt
+find /home/02963357460/ -iname '*.MP3' >> ver.txt
+find /home/02963357460/ -iname '*.MP4' >> ver.txt
+find /home/02963357460/ -iname '*.WMA' >> ver.txt
+find /home/02963357460/ -iname '*.AAC' >> ver.txt
+find /home/02963357460/ -iname '*.OGG' >> ver.txt
+find /home/02963357460/ -iname '*.AC3' >> ver.txt
+find /home/02963357460/ -iname '*.WAV' >> ver.txt
+find /home/02963357460/ -iname '*.WMV' >> ver.txt
+find /home/02963357460/ -iname '*.WAV' >> ver.txt
+find /home/02963357460/ -iname '*.avi' >> ver.txt
+find /home/02963357460/ -iname '*.mpeg' >> ver.txt
+find /home/02963357460/ -iname '*.mov' >> ver.txt
+find /home/02963357460/ -iname '*.rmvb' >> ver.txt
+find /home/02963357460/ -iname '*.mkv' >> ver.txt
+find /home/02963357460/ -iname '*.mpg' >> ver.txt
+find /home/02963357460/ -iname '*.flv' >> ver.txt
+find /home/02963357460/ -iname '*.AVI' >> ver.txt
+find /home/02963357460/ -iname '*.MPEG' >> ver.txt
+find /home/02963357460/ -iname '*.MOV' >> ver.txt
+find /home/02963357460/ -iname '*.RMVB' >> ver.txt
+find /home/02963357460/ -iname '*.MKV' >> ver.txt
+find /home/02963357460/ -iname '*.MPG' >> ver.txt
+find /home/02963357460/ -iname '*.FLV' >> ver.txt
+find /home/02963357460/ -iname '*.bmp' >> ver.txt
+find /home/02963357460/ -iname '*.gif' >> ver.txt
+find /home/02963357460/ -iname '*.jpeg' >> ver.txt
+find /home/02963357460/ -iname '*.png' >> ver.txt
+find /home/02963357460/ -iname '*.BMP' >> ver.txt
+find /home/02963357460/ -iname '*.GIF' >> ver.txt
+find /home/02963357460/ -iname '*.JPEG' >> ver.txt
+find /home/02963357460/ -iname '*.PNG' >> ver.txt
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+http://www.devin.com.br/shell_script/
+http://rberaldo.com.br/curso-de-shell-script-modulo-1-scripts-shell-estruturas/
+
+Controle de fluxo com o if
+
+Controle de fluxo são comandos que vão testando algumas alternativas, e de acordo com essas alternativas, vão executando comandos. Um dos comandos de controle de fluxo mais usados é certamente o if, que é baseado na lógica “se acontecer isso, irei fazer isso, se não, irei fazer aquilo”.
+
+Vamos dar um exemplo:
+
+if [ -e $linux ]
+then
+  echo 'A variável $linux existe.'
+else
+  echo 'A variável $linux não existe.'
+fi
+
+O que este pedaço de código faz? O if testa a seguinte expressão: Se a variável $linux existir, então (then) ele diz que que existe com o echo, se não (else), ele diz que não existe. O operador -e que usei é pré-definido, e você pode encontrar a listagem dos operadores na tabela:
+-eq	Igual
+-ne	Diferente
+-gt	Maior
+-lt	Menor
+-o	Ou
+-d	Se for um diretório
+-e	Se existir
+-z	Se estiver vazio
+-f	Se conter texto
+-o	Se o usuário for o dono
+-r	Se o arquivo pode ser lido
+-w	Se o arquivo pode ser alterado
+-x	Se o arquivo pode ser executado
+- See more at: http://www.devin.com.br/shell_script/#sthash.Bm0BDrJh.dpuf
+
+---- Exemplo de shell
+
+-----------------------------------------------------------------------
+
+#!/bin/bash
+# Exemplo Final de Script Shell
+#
+ 
+Principal() {
+  echo "Exemplo Final sobre o uso de scripts shell"
+  echo "------------------------------------------"
+  echo "Opções:"
+  echo
+  echo "1. Trasformar nomes de arquivos"
+  echo "2. Adicionar um usuário no sistema"
+  echo "3. Deletar um usuário no sistema"
+  echo "4. Fazer backup dos arquivos do /etc"
+  echo "5. Sair do exemplo"
+  echo
+  echo -n "Qual a opção desejada? "
+  read opcao
+  case $opcao in
+    1) Transformar ;;
+    2) Adicionar ;;
+    3) Deletar ;;
+    4) Backup ;;
+    5) exit ;;
+    *) "Opção desconhecida." ; echo ; Principal ;;
+  esac
+}
+ 
+Transformar() {
+  echo -n "Para Maiúsculo ou minúsculo? [M/m] "
+  read var
+  if [ $var = "M" ]; then
+    echo -n "Que diretório? "
+    read dir
+ 
+    for x in `/bin/ls` $dir; do
+      y=`echo $x | tr '[:lower:]' '[:upper:]'`
+      if [ ! -e $y ]; then
+        mv $x $y
+      fi
+    done
+ 
+  elif [ $var = "m" ]; then
+    echo -n "Que diretório? "
+    read dir
+ 
+    for x in `/bin/ls` $dir; do
+      y=`echo $x | tr '[:upper:]' '[:lower:]'`
+      if [ ! -e $y ]; then
+        mv $x $y
+      fi
+    done
+ 
+  fi
+}
+ 
+Adicionar() {
+  clear
+  echo -n "Qual o nome do usuário a se adicionar? "
+  read nome
+  adduser nome
+  Principal
+}
+ 
+Deletar() {
+  clear
+  echo -n "Qual o nome do usuário a deletar? "
+  read nome
+  userdel nome
+  Principal
+}
+ 
+Backup() {
+  for x in `/bin/ls` /etc; do
+    cp -R /etc/$x /etc/$x.bck
+    mv /etc/$x.bck /usr/backup
+  done
+}
+ 
+Principal
+
+-----------------------------------------------------------------------
+
+* Problem: The NTFS partition is in an unsafe state error in Ubuntu
+(https://www.reddit.com/r/linuxquestions/comments/3n55iw/windows_is_hibernated_refused_to_mount/)
+
+$ sudo mount -t "ntfs" -o "uhelper=udisks2,nodev,nosuid,uid=1000,gid=1000" "/dev/sda5" "/media/clenubio/Windows8_OS"
+
+> The NTFS partition is in an unsafe state. Please resume and shutdown
+Windows fully (no hibernation or fast restarting), or mount the volume
+read-only with the ‘ro’ mount option.
+
+==> Soluções:
+
+$ sudo ntfsfix -d /dev/sda5
+$ sudo ntfsfix -b /dev/sda5
+
+> Mounting volume... Windows is hibernated, refused to mount. FAILED Attempting to correct errors... Processing $MFT and $MFTMirr... Reading $MFT... OK Reading $MFTMirr... OK Comparing $MFTMirr to $MFT... OK Processing of $MFT and $MFTMirr completed successfully. Setting required flags on partition... OK Going to empty the journal ($LogFile)... OK Windows is hibernated, refused to mount. Remount failed: Operation not permitted
+
+"ou": 
+
+$ sudo mount -t "ntfs" -o remove_hiberfile "/dev/sda5" "/media/clenubio/Windows8_OS"
+$ sudo ntfsfix -d /dev/sda5
+$ sudo ntfsfix -b /dev/sda5
+
+> NTFS partition /dev/sda5 was processed successfully.
+
+"ou":
+
+$ sudo ntfs-3g /dev/sda4 /mnt/windows
+$ sudo ntfs-3g -o remove_hiberfile /dev/sda4 /mnt/windows
+
+# better copy+paste, spaces are important
+sudo ntfsclone -mst -O - /dev/sda4 | gzip > metadata.gz
+
+
+================================
+
+Backup and restore Pidgin chat logs
+
+ver http://superuser.com/questions/14138/backup-and-restore-pidgin-chat-logs
+
+$ ~/.purple/logs/jabber/clenubio.souza@sim.serpro.gov.br
+
+=====================================================
+== PROCEDIMENTO PARA AGILIZAR O BACKUP DE ARQUIVOS ==
+=====================================================
+
+* Empacotando arquivos (com taxa de compactação "zero"):
+
+$ tar -cvf nome_do_arquivo.tar diretorio_dos_arquivos/
+
+- As opções usadas na declaração tar -cvf têm os seguintes efeitos:
+
+    c – (create) cria uma novo arquivo .tar
+    v – (verbose) torna a execução do comando mais “verbosa”, ou seja, ele vai “contando” o que está fazendo
+    f – indica que o resultado será do tipo arquivo (file)
+
+
+* Descompactar:
+
+- Para extrair o conteúdo de um arquivo tar, usamos a opção -x. Veja como funciona:
+
+$ tar -xvf nome_do_arquivo.tar
+
+
+Obs.: Depois confirmar se a cópia foi ok com o comando:
+
+$ md5sum backup.tar
+
+
+======
+- Restart the network manager:
+
+$ sudo service network-manager restart
+

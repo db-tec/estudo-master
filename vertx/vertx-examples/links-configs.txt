@@ -1,0 +1,63 @@
+
+(Fonte: https://github.com/vert-x3/vertx-examples/tree/master/spring-examples/springboot-example)
+
+$ cd /home/02963357460/estudo.git/vertx/vertx-examples/workspace/springboot-example
+
+$ mvn eclipse:eclipse
+
+(Import Maven Project)
+
+$ mvn package
+
+$ java -jar target/springboot-example-1.5.6.RELEASE.jar
+
+-> http://localhost:8080/
+
+====================================================================================
+
+(Fonte: https://github.com/vert-x3/vertx-examples/tree/master/spring-examples/spring-example)
+
+$ cd /home/02963357460/estudo.git/vertx/vertx-examples/workspace-examples/spring-example
+
+$ mvn eclipse:eclipse
+
+(Import Maven Project)
+
+$ mvn package
+
+$ java -jar target/spring-example-3.4.2-fat.jar
+
+-> http://localhost:8080/
+
+	Hello from vert.x
+
+-> http://localhost:8080/products
+	
+	[{"productId":1,"description":"product 1"},{"productId":2,"description":"product 2"},{"productId":1,"description":"product 1"},{"productId":4,"description":"product 4"}]
+
+====================================================================================
+
+	NOT OK!!! NOT OK!!! NOT OK!!!
+
+(Fontes: 
+	https://github.com/vert-x3/vertx-examples/blob/master/spring-examples/springboot-clustering/README.adoc
+	https://github.com/vert-x3/vertx-examples/blob/master/spring-examples/springboot-clustering/springboot-clustering-hazelcast/README.adoc
+)
+
+$ cd /home/02963357460/estudo.git/vertx/vertx-examples/workspace-all-examples-for-springboot-clustering-hazelcast
+
+$ mvn eclipse:eclipse
+
+(Import Maven Project)
+
+$ mvn package
+
+$ cd springboot-clustering/
+
+$ cd springboot-clustering-hazelcast/
+
+(primeiro terminal)
+$ mvn spring-boot:run -DhttpPort=8081 
+
+(segundo terminal)
+$ ~/mvn spring-boot:run

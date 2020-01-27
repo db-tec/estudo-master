@@ -1,0 +1,11 @@
+Obs.: No ubuntu instalar nodejs via (sudo apt-get install nodejs)
+
+Utilizando o IDE Aptana_Studio_3_Setup_Linux_x86_3.6.1.zip ...
+
+Instalar plugin "Marketplace Client" ...
+
+No Marketplace, instalar: 
+
+1) "Enide (Studio) 2015 -> NodeJS, Javascript, Java and Web Tools" (http://www.nodeclipse.org/)
+
+2) JSDT jQuery

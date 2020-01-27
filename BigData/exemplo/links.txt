@@ -1,0 +1,533 @@
+** Bíblia Livre (BLIVRE) - Uma tradução das Sagradas Escrituras sob uma licença de uso livre.
+
+A página principal do projeto é https://sites.google.com/site/biblialivre/ .
+
+Este repositório contem os arquivos-fonte da tradução.
+
+---
+
+https://sites.google.com/site/biblialivre/arquivos
+https://github.com/blivre/BibliaLivre
+https://github.com/blivre/BibliaLivre/releases
+--> https://github.com/blivre/BibliaLivre/releases/download/2017.3.0/bliv-tr_vpl.zip
+
+2017.3.0
+@blivre blivre released this on 22 Mar · 1 commit to master since this release
+
+Versão de março de 2017.
+
+Versões em Texto Crítico terminam em n4, Textus Receptus em TR
+
+usfm-s : formato USFM somente com marcadores básicos
+usfm: formato USFM com marcadores adicionais
+ont: formato para o aplicativo theWord. Instalar no diretório Bibles do aplicativo
+osis: formato OSIS, usado para gerar módulos Crosswire Sword
+vpl: formato verso por linha, formato simples de se converter para outras aplicações
+sword: módulo para a plataforma Crosswire Sword
+mybible: módulo para aplicativo MySword (para dispositivos Android)
+mobi: formato compatível com dispositivos Kindle
+epub: formato popular de livros eletrônicos.
+
+---
+
+XML, SQL e JSON:
+https://github.com/thiagobodruk/biblia
+
+Atualmente o projeto conta com três versões da Bíblia Sagrada em Português Brasileiro (pt-BR):
+
+Nova Versão Internacional (NVI)
+Almeida Corrigida e Fiel (ACF)
+Almeida Revisada Imprensa Bíblica (AA)
+
+====================================
+
+http://www.umsocorpo.com.br/site/biblia-em-txt/
+https://verdadecrista.wordpress.com/2012/07/03/versoes-biblicas-textus-receptus-e-texto-critico/
+
+
+=======
+== Links programas para contagem:
+=======
+
+
+
+class InfoString{
+	public boolean isLetter(char ch){
+		if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'))
+			return true;
+		else
+			return false;
+	}
+	public boolean isSpace(char ch){
+		if(ch == ' ')
+			return true;
+		else
+			return false;
+	}
+	public static void main(String[] args){
+		InfoString strInfo = new InfoString();
+		String text = "To be or not to be. That is the question"
+		+ " Whether it's noble in the mind to suffer"
+		+ " slings and arrows of outrangeous fortune."
+		+ " or to take arms against a sea of troubles,"
+		+ " and by opposing end them?";
+		int spaces = 0,
+			others = 0,
+			letters = 0;
+		for(int i = 0; i < text.length(); i++){
+			if(strInfo.isLetter(text.charAt(i)))
+				letters++;
+			else if(strInfo.isSpace(text.charAt(i)))
+				spaces++;
+			else
+				others++;
+		}
+		System.out.println("Letters: " + letters + ", Spaces: " + spaces + ", Others: " + others);
+	}
+}
+
+
+--
+
+public class ContagemDeString {
+    public static void main (String[] args) {
+        String str = "O rato roeu a ropa do rei de roma";
+        String frs = str;
+        int vog = 0, cons = 0;
+        str= str.toLowerCase();
+        for(int i = 0; i < str.length(); i++){
+            char c = str.charAt(i);
+            if(c == 32) continue;
+            if(c == 97 | c == 101 | c == 105 | c == 111 | c == 117){
+                vog++;
+                continue;
+            }
+            if(c >= 98 && c <= 122) cons++;
+        }
+        System.out.println("Na frase \""+frs+"\" temos:\nVogais: "+vog+"\nConsoantes: "+cons);
+    }
+}
+
+--
+
+http://www.devmedia.com.br/contagem-de-frequencias-de-palavras-em-arquivos-texto-em-java/26979
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * classe ContaPalavras - recebe como entrada um arquivo texto, identifica as
+ * diferentes palavras e contabiliza as frequências.
+ * 
+ * uso: java ContaPalavras arquivo_texto
+ * 
+ * @author Eduardo Correa
+ * 
+ */
+public class ContaPalavras {
+
+	public static void main(String[] args) throws Exception {
+
+	//-------------------------------------------------------
+	// (0) declaração/inicialização de variáveis
+	//-------------------------------------------------------
+		
+	String curLine; //recebe cada linha lida do arquivo texto
+		
+	Map<String,Integer> mapPalavras; //mapa: Palavra -> Frequencia  
+						//usado para contabilizar as 
+						//frequencias das palavras
+		
+	mapPalavras = new HashMap<String,Integer>();
+		
+		
+	//-------------------------------------------------------
+	// (1) abre o arquivo texto
+	//-------------------------------------------------------
+		
+	//(1.1) testa se nome do arq. texto foi passado na chamada do programa
+        if (args.length != 1) {
+            System.err.println("ERRO: eh preciso especificar o nome do arquivo");
+            System.err.println("Uso: java ContaPalavras arquivo_texto");
+            System.exit(1);
+        }
+
+	//(1.2) abre o arquivo
+        FileReader txtFile = new FileReader(args[0]);
+        BufferedReader txtBuffer = new BufferedReader(txtFile);
+
+	//-------------------------------------------------------
+	// (2) loop que processa cada linha do arquivo texto
+	//-------------------------------------------------------
+
+        //(2.1) pega a primeira linha do arquivo
+        curLine = txtBuffer.readLine();
+      
+        
+        while (curLine != null) {
+        	
+    		//-------------------------------------------------------
+        	//(2.2) quebra a linha em tokens (palavras) utilizando 
+        	//      expressão regular. 
+        	//
+        	//      O programa usa uma forma simplificada p/ obter os tokens.
+        	//      São considerados tokens:
+        	//      - uma sequência de 1 a n números
+        	//      - uma sequência de 1 a n letras
+    		//-------------------------------------------------------
+
+        	//primeiro converte tudo para minúsculo
+        	String minusculo = curLine.toLowerCase();
+        	
+        	//depois aplica a expressão regular
+        	Pattern p = Pattern.compile("(\\d+)|([a-záéíóúçãõôê]+)");
+        	Matcher m = p.matcher(minusculo);
+
+        	
+    		//-------------------------------------------------------
+        	//(2.3) IMPORTANTE: neste loop pegamos cada palavra 
+        	//                  e atualizamos o mapa de frequências
+    		//-------------------------------------------------------
+        	
+        	while(m.find())
+        	{
+        	  String token = m.group(); //pega um token   
+        	  Integer freq = mapPalavras.get(token); //verifica se esse 
+        	  					     //token já está no mapa	
+				
+				if (freq != null) { //se palavra existe, atualiza a frequencia
+					mapPalavras.put(token, freq+1);
+				}
+				else { // se palavra não existe, insiro com um novo id e freq=1.
+					mapPalavras.put(token,1);
+				}
+        	}
+        	
+		//pega a próxima linha do arquivo
+        	curLine = txtBuffer.readLine();
+        }
+        
+        txtBuffer.close();
+
+	//-------------------------------------------------------
+	// (3) imprime o mapa de frequencias
+	//-------------------------------------------------------
+	 for (Map.Entry<String, Integer> entry : mapPalavras.entrySet()) {
+		System.out.println(entry.getKey() + "\tfreq=" + entry.getValue());
+	 }
+
+   }
+
+}
+
+--
+
+http://www.javaprogressivo.net/2014/01/Como-ler-caracteres-Strings-Bytes-de-arquivos.html
+
+--
+VER
+===> https://pt.stackoverflow.com/questions/42314/como-contar-a-frequ%C3%AAncia-de-cada-letra-em-uma-string
+
+public static void main(String[] args) {
+    Scanner ent = new Scanner(System.in);
+    String S;
+    int i, j, cont=0;
+    System.out.println("Digite a palavra/frase:");
+    // usuário digita string
+    S = ent.nextLine();
+    // a string é convertida para letras minúsculas
+    // para que não haja diferenciação entre 'A' e 'a'
+    String s = S.toLowerCase();
+    String v = "";
+    for (i=0; i<s.length(); i++) {
+        for (j=0; j<s.length(); j++) {
+            if (s.charAt(i)==s.charAt(j)) {
+                cont++;
+            } 
+        }
+        // ao imprimir as frequências, exclui a contagem dos espaços
+        char c = s.charAt(i);
+        if (c >= 'a' && c <= 'z' && !v.contains("" + c)) {
+            v = v + c;
+            System.out.println("A letra "+s.charAt(i)+" aparece "+cont+" vezes.");
+        }
+        cont=0;
+    }
+}
+
+--
+
+https://pt.stackoverflow.com/questions/13621/contar-linhas-scanner
+
+List<String> textos = new ArrayList<>();
+//le linha por linha enquanto alimenta seu ArrayList
+while(sc.hasNext()) {
+    textos.add(sc.next());
+}
+//mostra quantas linhas o Scanner leu
+System.out.println("Seu scanner possuia " + textos.size() + " linhas"); 
+//mostra o conteúdo da primeira linha
+System.out.println("A primeira linha contém: " + textos.get(0));
+sc.close();
+
+==========
+==========
+========== (apache spark java character counter)
+==========
+==========
+
+https://gist.github.com/amithn/344a648b7471988d2472
+
+package spark.poc;
+
+
+import org.apache.commons.io.FileUtils;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.FlatMapFunction;
+import org.apache.spark.api.java.function.Function2;
+import org.apache.spark.api.java.function.PairFunction;
+import scala.Tuple2;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class CharacterCounterSparkJob {
+
+    public static void main(String[] args) throws IOException {
+        Date start = new Date();
+
+        SparkConf conf = new SparkConf().setAppName("Character Counter")
+                                         .setMaster("local[4]");
+
+        JavaSparkContext context = new JavaSparkContext(conf);
+
+        FileUtils.deleteDirectory(new File("output"));
+
+        JavaRDD<String> lines = context.textFile("./data1.txt");
+        // Transform with a flat map  "hello world" => h,e,l,l,o, ,w,o,r,l,d
+        List<Tuple2<Character, Integer>> collect = lines.flatMap(new FlatMapFunction<String, Character>() {
+            @Override
+            public Iterable<Character> call(String s) throws Exception {
+                List<Character> list = new ArrayList<Character>();
+                for (int len = 0; len < s.length(); len++) {
+                    list.add(s.charAt(len));
+                }
+                return list;
+            }
+        // Transform h,e,l,l,o => (h,1), (e,1), (l,1), (l,1),(o,1)
+        }).mapToPair(new PairFunction<Character, Character, Integer>() {
+            @Override
+            public Tuple2<Character, Integer> call(Character character) throws Exception {
+                return new Tuple2(character, 1);
+            }
+        // See how l has 2?
+        // (h,1), (e,1), (l,1), (l,1),(o,1) => (h,1), (e,1), (l,2), (o,1)
+        }).reduceByKey(new Function2<Integer, Integer, Integer>() {
+            @Override
+            public Integer call(Integer v1, Integer v2) throws Exception {
+                return v1 + v2;
+            }
+        // Return a list of K,V pairs
+        }).collect();
+
+        for(Tuple2<Character, Integer> tuple : collect) {
+            System.out.println(tuple._1() + " => " + tuple._2());
+        }
+
+        Date end = new Date();
+        System.out.println("Took " + (end.getTime() - start.getTime())/1000 + " seconds");
+
+    }
+}
+
+--
+
+http://www.hadooptpoint.org/apache-spark-examples-on-character-count/
+
+https://stackoverflow.com/questions/38732846/count-number-of-characters-for-each-line-pyspark
+
+
+==== Java word cloud
+
+https://github.com/kennycason/kumo
+http://kennycason.com/posts/2014-07-03-kumo-wordcloud.html
+
+---
+
+https://www.cloudera.com/documentation/enterprise/5-5-x/topics/spark_develop_run.html
+https://www.cloudera.com/documentation/enterprise/5-5-x/topics/spark_develop_run.html#wordcount__fig_bfm_ddj_h5
+
+$ spark-submit --class com.cloudera.sparkwordcount.JavaWordCount \
+--master local --deploy-mode client --executor-memory 1g \
+--name wordcount --conf "spark.app.id=wordcount" \
+sparkwordcount-1.0-SNAPSHOT-jar-with-dependencies.jar hdfs://namenode_host:8020/path/to/inputfile.txt 2
+
+==> // word count (https://www.ashishpaliwal.com/blog/2015/01/learning-spark-with-examples-famous-word-count/)
+==> // count characters
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import org.apache.spark.api.java.*;
+import org.apache.spark.api.java.function.*;
+import org.apache.spark.SparkConf;
+import scala.Tuple2;
+
+public class JavaWordCount {
+  public static void main(String[] args) {
+
+    // create Spark context with Spark configuration
+    JavaSparkContext sc = new JavaSparkContext(new SparkConf().setAppName("Spark Count"));
+
+    // get threshold
+    final int threshold = Integer.parseInt(args[1]);
+
+    // read in text file and split each document into words
+    JavaRDD<String> tokenized = sc.textFile(args[0]).flatMap(
+      new FlatMapFunction() {
+        public Iterable call(String s) {
+          return Arrays.asList(s.split(" "));
+        }
+      }
+    );
+
+    // count the occurrence of each word
+    JavaPairRDD<String, Integer> counts = tokenized.mapToPair(
+      new PairFunction() {
+        public Tuple2 call(String s) {
+          return new Tuple2(s, 1);
+        }
+      }
+    ).reduceByKey(
+      new Function2() {
+        public Integer call(Integer i1, Integer i2) {
+          return i1 + i2;
+        }
+      }
+    );
+
+    // filter out words with fewer than threshold occurrences
+    JavaPairRDD<String, Integer> filtered = counts.filter(
+      new Function, Boolean>() {
+        public Boolean call(Tuple2 tup) {
+          return tup._2 >= threshold;
+        }
+      }
+    );
+
+    // count characters
+    JavaPairRDD<Character, Integer> charCounts = filtered.flatMap(
+      new FlatMapFunction<Tuple2<String, Integer>, Character>() {
+        @Override
+        public Iterable<Character> call(Tuple2<String, Integer> s) {
+          Collection<Character> chars = new ArrayList<Character>(s._1().length());
+          for (char c : s._1().toCharArray()) {
+            chars.add(c);
+          }
+          return chars;
+        }
+      }
+    ).mapToPair(
+      new PairFunction<Character, Character, Integer>() {
+        @Override
+        public Tuple2<Character, Integer> call(Character c) {
+          return new Tuple2<Character, Integer>(c, 1);
+        }
+      }
+    ).reduceByKey(
+      new Function2<Integer, Integer, Integer>() {
+        @Override
+        public Integer call(Integer i1, Integer i2) {
+          return i1 + i2;
+        }
+      }
+    );
+
+    System.out.println(charCounts.collect());
+  }
+}
+
+===
+https://www.cloudera.com/documentation/enterprise/5-5-x/topics/spark_mllib.html
+https://raw.githubusercontent.com/apache/spark/branch-1.5/examples/src/main/scala/org/apache/spark/examples/mllib/MovieLensALS.scala
+
+---
+
+Twitter_Hashtag_Analysis.ipynb
+
+==> https://github.com/arnesund/tw-hashtags/blob/master/Twitter_Hashtag_Analysis.ipynb
+
+==> https://github.com/ibm-cds-labs/spark.samples
+https://developer.ibm.com/clouddataservices/2016/01/15/real-time-sentiment-analysis-of-twitter-hashtags-with-spark/
+
+https://www.javacodegeeks.com/2016/04/spark-streaming-twitter-sentiment-analysis.html
+
+https://github.com/zezutom/spark-tweetalyzer
+
+https://databricks.gitbooks.io/databricks-spark-reference-applications/content/twitter_classifier/collect.html
+
+https://blog.rackspace.com/behind-the-curtain-twitter-sentiment-analysis-demo-sample-app-code
+==> https://github.com/rackerlabs/cloudbigdata-extras/tree/master/examples/twitter_sentiment_v2
+https://github.com/rackerlabs/cloudbigdata-extras/blob/master/examples/twitter_sentiment_v2/backend/src/main/scala/com/rackspace/spark/Sentiment.scala
+
+==> twitter-sentiment-analysis
+::FAZER::
+https://github.com/P7h/Spark-MLlib-Twitter-Sentiment-Analysis
+https://github.com/P7h/p7hb-docker-mllib-twitter-sentiment
+https://github.com/P7h/p7hb-docker-spark
+https://github.com/P7h/Spark-MLlib-Twitter-Sentiment-Analysis/wiki/Blog
+https://github.com/P7h/Spark-MLlib-Twitter-Sentiment-Analysis/wiki
+https://devpost.com/software/spark-mllib-twitter-sentiment-analysis
+https://hub.docker.com/r/p7hb/p7hb-docker-mllib-twitter-sentiment/
+
+::Para apresentacao::
+https://www.edureka.co/blog/category/big-data-nosql/
+https://www.edureka.co/blog/spark-streaming/
+https://www.edureka.co/blog/spark-sql-tutorial/?utm_source=blog&utm_medium=left-menu&utm_campaign=spark-streaming
+https://www.edureka.co/blog/spark-tutorial/?utm_source=blog&utm_medium=left-menu&utm_campaign=spark-sql-tutorial
+
+
+https://docs.cloud.databricks.com/docs/latest/databricks_guide/07%20Spark%20Streaming/03%20Twitter%20Hashtag%20Count%20-%20Scala.html
+
+
+++++++++
+
+https://github.com/gomex/docker-para-desenvolvedores
+
+
+
+https://github.com/apache/spark/blob/master/examples/src/main/java/org/apache/spark/examples/JavaWordCount.java
+https://github.com/kennycason/kumo
+https://github.com/adymimos/rWordCloud
+https://arnesund.com/2015/07/13/analyzing-popular-topics-in-my-twitter-timeline-using-apache-spark/
+https://docs.cloud.databricks.com/docs/latest/databricks_guide/07%20Spark%20Streaming/03%20Twitter%20Hashtag%20Count%20-%20Scala.html
+https://devpost.com/software/spark-mllib-twitter-sentiment-analysis
+https://hub.docker.com/r/p7hb/p7hb-docker-mllib-twitter-sentiment/
+https://github.com/P7h/Spark-MLlib-Twitter-Sentiment-Analysis
+
+===> (Test Drive Data Science Virtual Machine for Linux (Ubuntu) - por Microsoft -- Azure Marketplace)
+https://azuremarketplace.microsoft.com/pt-br/marketplace/apps/microsoft-ads.linux-data-science-vm-ubuntu/manage/testdrive?tab=Overview&signInModalType=1&testDrive=true&instanceId=8a34133a-20b8-4083-b67b-22451d078d5b
+https://ctlabsn.blob.core.windows.net/7f987c4eca2946ea91414942dda41738/demo%5Clinux-dsvm-testdrive%5Cartifact%5Ctutorialdocument%5Cdocument1.pdf
+
+https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview
+
+--> https://dsvmtdl2icrk2dxz6xk.westcentralus.cloudapp.azure.com:8000/hub/login
+(Seu Test Drive está pronto
+"7 horas 42 minutos restantes"
+Your test drive is available. Access your server at dsvmtdl2icrk2dxz6xk.westcentralus.cloudapp.azure.com with username dsvm and password Dsvm@l2icrk2d.)
+
+https://dsvmtdl2icrk2dxz6xk.westcentralus.cloudapp.azure.com:8000/hub/home
+
+https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-process-hive-walkthrough
+https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-data-science-virtual-machine-overview
+
+

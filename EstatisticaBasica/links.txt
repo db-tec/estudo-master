@@ -1,0 +1,37 @@
+* Estudo inicial:
+
+http://professorguru.com.br/estatistica/
+http://professorguru.com.br/estatistica/index.html
+
+http://www.portalaction.com.br/estatistica-basica
+http://www.portalaction.com.br/probabilidades
+
+http://leg.ufpr.br/~silvia/CE003/notes.html
+
+==> PAREI EM "http://professorguru.com.br/estatistica/gr%C3%A1ficos%20estat%C3%ADsticos/principais-graficos-estatisticos.html"
+
+
+* curso on-line:
+
+https://campus.datacamp.com/courses/free-introduction-to-r/chapter-1-intro-to-basics-1?ex=1#skiponboarding
+
+** Termos:
+
+https://edisciplinas.usp.br/pluginfile.php/3475000/mod_resource/content/1/10%20Conceitos%20Estat%C3%ADstica%20Descritiva.pdf
+
+"Modelos Contínuos de Distribuições de Probabilidades"
+
+"Estatística Descritiva (tabelas de freqüências, média, moda, mediana, desvio padrão, etc) são bastante úteis"
+
+- distribuição uniforme:
+"http://leg.ufpr.br/~paulojus/CE223/ce223/ce223se13.html#x14-9000013.3"
+"http://professorguru.com.br/estatistica/distribuicoes-de-probabilidade/distribuicao-uniforme.html"
+
+"funções matemáticas" 
+"funções densidade de probabilidade"
+
+http://professorguru.com.br/estatistica/distribuicoes-de-probabilidade/distribuicoes--probabilidades-esperanca-.html
+-> http://professorguru.com.br/estatistica/distribuicoes-de-probabilidade/distribuicao-uniforme.html
+
+
+

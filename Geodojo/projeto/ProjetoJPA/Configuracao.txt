@@ -1,0 +1,17 @@
+Visual Studio code linux:
+
+https://code.visualstudio.com/Download
+
+VSCode-linux-x64-stable.zip
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+$ mvn compile
+$ mvn exec:java -Dexec.mainClass="br.home.HelloWorld"
+
+------------
+-- Chama também a execução dos testes unitários:
+$ mvn clean package
+-- $ java -jar target/jpaexemplo01.jar
+$ java -cp target/jpaexemplo01.jar br.home.HelloWorld
+

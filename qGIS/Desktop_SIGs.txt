@@ -1,0 +1,12 @@
+- open sources:
+qGIS - plugins in Python / C++
+openJUMP - plugins in Java /Python
+gvSIG - plugins in Python
+GRASS - plugins in Python
+uDig
+SAGA
+MapWindow GIS - open source project C# for the .NET platform
+SPRING - INPE
+
+- proprietários:
+ArcGIS - plugins in Python

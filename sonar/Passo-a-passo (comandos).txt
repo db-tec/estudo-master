@@ -1,0 +1,116 @@
+Fontes:
+
+	https://tedvinke.wordpress.com/2016/03/17/3-steps-for-analyzing-a-gradle-project-with-sonarqube-using-docker/
+	https://github.com/orangesignal/docker-sonarqube
+
+1) Instalação
+
+Fonte:
+	https://hub.docker.com/_/sonarqube/
+	https://github.com/SonarSource/docker-sonarqube
+	https://github.com/SonarSource/docker-sonarqube/blob/master/7.0/Dockerfile
+
+$ docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+
+$ docker run -d --name sonarqube -p 9000:9000 sonarqube
+
+==> http://localhost:9000
+
+obs.: 
+By default, the image will use an embedded H2 database that is not suited for production.
+Embedded database should be used for evaluation purpose only.
+The embedded database is recommended for demos and tests only. It must be replaced by a database like PostgreSQL, MySQL or Oracle in production environment. 
+'SONAR_JDBC_URL' Default value is: jdbc:h2:tcp://localhost:9092/sonar
+
+ou
+
+$ docker run -d --name sonarqube \
+    -p 9000:9000 -p 9092:9092 \
+    -e SONARQUBE_JDBC_USERNAME=sonar \
+    -e SONARQUBE_JDBC_PASSWORD=sonar \
+    -e SONARQUBE_JDBC_URL=jdbc:postgresql://localhost/sonar \
+    sonarqube
+
+Obs.: The production database is configured with these variables: SONARQUBE_JDBC_USERNAME, SONARQUBE_JDBC_PASSWORD and SONARQUBE_JDBC_URL.
+
+$ docker container ls
+CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                                            NAMES
+3e2e7ca03483        sonarqube           "./bin/run.sh"      16 seconds ago      Up 15 seconds       0.0.0.0:9000->9000/tcp, 0.0.0.0:9092->9092/tcp   sonarqube
+
+obs.: "http://localhost:9000" By default you can login as "admin" with password "admin" (PARA CRIAR TOKEN_SONAR)!
+
+2) To analyse a project (com projeto Maven):
+
+$ On Linux:
+
+mvn sonar:sonar
+
+$ With boot2docker:
+
+mvn sonar:sonar -Dsonar.host.url=http://localhost:9000 -Dsonar.jdbc.url="jdbc:h2:tcp://localhost/sonar"
+
+3) To analyse a project (com projeto Gradle):
+
+Fonte:
+
+	https://github.com/SonarSource/sonar-scanning-examples/tree/master/sonarqube-scanner-gradle
+	https://github.com/SonarSource/sq-com_example_java-gradle-travis
+	https://docs.sonarqube.org/display/SONARQUBE51/Analyzing+with+Gradle
+	https://plugins.gradle.org/plugin/org.sonarqube
+	https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner+for+Gradle
+	
+3.1) Exemplo 01
+
+$ cd github/estudo/sonar/sonar-scanning-examples-master/sonarqube-scanner-gradle
+
+$ gradle sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.verbose=true 
+
+ou
+
+$ ./gradlew sonarqube
+
+==> http://localhost:9000/dashboard?id=sonarqube-scanner-gradle
+
+Obs.: build.gradle:
+
+plugins {
+  id "org.sonarqube" version "2.6"
+}
+
+./gradlew sonarqube \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=01275058215cbc286fb95675402e7135b454941c
+
+3.2) Exemplo 02
+
+$ cd /home/02963357460/github/estudo/sonar/sq-com_example_java-gradle-travis-master
+
+$ ./gradlew sonarqube -Dsonar.host.url=http://localhost:9000 -Dsonar.verbose=true
+
+
+OBS.: COMANDO MAIS COMPLETO (OBTER TOKEN APÓS ACESSO A PÁGUINA DE LOGIN PARA "admin" "admin"):
+
+$ setenv TOKEN_SONAR=97af7ccecce5566be55b6a1b21f2f551da1782e0
+
+$ gradle sonarqube -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=${TOKEN_SONAR} -Dsonar.jacoco.reportPaths=build/coverage-reports/jacoco-unit.exec \
+-Dsonar.verbose=true --stacktrace
+
+**********
+** Extras:
+**********
+
+Obter arquivos de https://github.com/orangesignal/docker-sonarqube.git
+
+$ gradle sonarqube -Dsonar.host.url=http://sonar.mycompany.com -Dsonar.verbose=true
+
+--
+script:
+  - ./gradlew sonarqube
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+    - '$HOME/.gradle'
+    - '.gradle'
+

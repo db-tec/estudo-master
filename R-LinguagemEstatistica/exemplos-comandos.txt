@@ -1,0 +1,74 @@
+* Criando dados no formato csv:
+
+> one = c(1:5)
+
+> cat(paste(shQuote(one, type="cmd"), collapse=", "))
+"1", "2", "3", "4", "5"
+
+>  write.csv(matrix(as.character(one),nrow=1),row.names=FALSE, file = "teste.csv")
+## write.csv(matrix(as.character(one),nrow=1),row.names=FALSE)
+
+> my_data <- read.csv("teste.csv")
+
+"ou":
+
+> rs <- paste("\"",as.character(one),"\"",collapse=", ",sep="")
+
+> cat(rs)
+
+
+## Distribuição Uniforme -> Uniforme Contínua (http://leg.ufpr.br/~paulojus/CE223/ce223/ce223se13.html#x14-9000013.3):
+
+# Portanto, o default é uma distribuição uniforme no intervalo [0, 1] e os argumentos opcionais são min e max. Por exemplo, para simular 5 valores de X ~ U(5, 20) usamos:
+
+# obs.: nafunção *unif() onde * é r -> "random" (aleatório): 
+
+> runif(5, min = 5, max = 20)
+
+> runif(10, min = 0, max = 1)
+
+> teste <- runif(50, min = 6, max = 18)
+
+> summary(teste)
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  6.042  10.474  13.582  12.980  15.796  17.935 
+
+> c("Hello", "World") %>% as.character(.)
+
+
+> library(help = "graphics")
+
+================
+
+- Exemplos de bases de dados:
+
+library(datasets)
+library(help = "datasets")
+data(cars)
+
+> cars %>% qplot(speed, dist, data = .)
+
+> cars %>% summary
+
+> str(cars)
+
+> p <- cars %>% qplot(speed, dist, data = .)
+
+> print(p)
+
+> cars %>% lm(dist ~ speed, data = .) %>% plot
+
+> cars %>% lines(dist ~ speed, data = ., col = "blue")
+
+> ?read.table
+
+> ?read.csv
+
+> (v <- 1+3)
+
+---
+
+> install.packages("mlbench")
+> library(mlbench)
+> library(help = "mlbench")
+

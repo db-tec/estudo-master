@@ -1,0 +1,127 @@
+-- Serviços em Nuvem para ML/DL:
+
+https://www.floydhub.com/
+
+https://www.paperspace.com/
+https://www.paperspace.com/ml
+https://blog.paperspace.com/intro-to-datascience/
+https://www.paperspace.com/pricing
+https://github.com/Paperspace/paperspace-python
+
+https://skymind.ai/
+
+https://www.crestle.ai/
+
+https://colab.research.google.com/notebooks/welcome.ipynb
+
+https://www.sylabs.io/
+
+--
+
+"The first cloud built for the future. Powering next-generation applications and cloud ML/AI pipelines."
+
+https://www.forbes.com/sites/janakirammsv/2018/03/21/paperspace-launches-gradient-a-serverless-artificial-intelligence-platform/#1da45fbe2ad8
+https://techcrunch.com/2018/03/21/paperspace-goes-serverless-to-simplify-ai-deployment-in-the-cloud/
+
+
+--Big data and Social Science:
+https://bookdown.org/paul/big-data4/
+
+--Advanced Spatial Modeling with Stochastic Partial Differential Equations Using R and INLA:
+https://becarioprecario.bitbucket.io/spde-gitbook/
+
+
+--Introduction to Data Science
+https://rafalab.github.io/dsbook/
+
+--Population Health Data Science with R
+https://bookdown.org/taragonmd/phds/
+
+--An Introduction to Text Processing and Analysis with R
+https://m-clark.github.io/text-analysis-with-R/
+
+--Data Visualization with R
+https://rkabacoff.github.io/datavis/
+
+--Introducción a la Computación con GPUs usando R
+https://bookdown.org/content/1502/
+
+--
+https://m-clark.github.io/introduction-to-machine-learning/
+---------------------------------------------------------------------------------------------------------
+
+http://datasciencetoolbox.org/
+
+https://www.datascienceatthecommandline.com/
+https://github.com/jeroenjanssens/data-science-at-the-command-line
+
+-----------------
+
+https://live.osgeo.org/en/quickstart/R_quickstart.html
+https://live.osgeo.org/archive/10.5/en/overview/iris_overview.html
+
+https://scitools.org.uk/iris/docs/latest/index.html
+https://github.com/SciTools/iris
+
+---------------------------------------------------------------------------------------------------------
+
+https://www.kdnuggets.com/2018/08/programming-best-practices-data-science.html
+
+* Recursos varios (relacionados):
+https://hub.docker.com/r/heatonresearch/jupyter-python-r/
+https://github.com/jeffheaton/t81_558_deep_learning
+https://www.heatonresearch.com/aifh/
+https://sites.wustl.edu/jeffheaton/t81-558/
+
+https://towardsdatascience.com/docker-for-data-science-9c0ce73e8263
+
+
+https://cran.r-project.org/web/views/Spatial.html
+
+
+- Geoestatistica (esri):
+https://geocompr.robinlovelace.net/
+https://spatialstats.github.io/
+https://spatialstats.github.io/hands-on/
+https://spatialstats.github.io/presentations/
+https://spatialstats.github.io/resources/#integrating-arcgis-and-r
+
+--com R (e visualização dados geoespaciais):
+https://github.com/geocomPP
+https://github.com/geocomPP/sdv
+https://github.com/geocomPP/geocompr
+https://github.com/geocomPP/sdvwR
+
+--Geo com R (ebook "Geocomputation with R"):
+VER em "https://www.crcpress.com/Chapman--HallCRC-The-R-Series/book-series/CRCTHERSER"
+https://geocompr.robinlovelace.net/
+==> https://geocompr.robinlovelace.net/intro.html#the-history-of-r-spatial
+
+--in ersi:
+https://r-arcgis.github.io/
+https://learn.arcgis.com/en/projects/analyze-crime-using-statistics-and-the-r-arcgis-bridge/
+
+--in qgis:
+https://docs.qgis.org/testing/en/docs/user_manual/processing_algs/saga/geostatistics.html
+https://docs.qgis.org/2.8/en/docs/user_manual/processing_algs/saga/geostatistics.html
+
+"Understanding Spatial Statistics and Geostatistics":
+http://www.esri.com/news/arcwatch/0410/lauren-scott.html
+
+"What are the software packages for geostatistical analysis?":
+https://www.researchgate.net/post/What_are_the_software_packages_for_geostatistical_analysis
+
+"A Practical Guide to 
+Geostatistical Mapping" (ebook):
+http://spatial-analyst.net/book/system/files/Hengl_2009_GEOSTATe2c1w.pdf
+
+"Geostatistics & Open-source statistical computing" (Course materials):
+http://www.css.cornell.edu/faculty/dgr2/teach/degeostats.html
+
+"The Elements of
+Statistical Learning" (ebook):
+http://web.stanford.edu/~hastie/ElemStatLearn/
+
+"Introduction to geostatistics with R"
+https://qcbs.ca/wiki/geostatistics
+

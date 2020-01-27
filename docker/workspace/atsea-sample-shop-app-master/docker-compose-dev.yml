@@ -1,0 +1,53 @@
+version: "3.1"
+
+services:
+  database:
+    build: 
+       context: ./database
+    image: atsea_db
+    environment:
+      POSTGRES_USER: gordonuser
+      POSTGRES_DB: atsea
+    ports:
+      - "5432:5432" 
+    networks:
+      - back-tier
+    secrets:
+      - postgres_password
+
+#database:
+#  build:
+#      context: ./database
+#    image: atsea_db
+    # set default mysql root password, change as needed
+#    environment:
+#      MYSQL_ROOT_PASSWORD: password
+    # Expose port 3306 to host. Not for the application but
+    # handy to inspect the database from the host machine.
+#    ports:
+#      - "3306:3306" 
+#    restart: always
+
+  appserver:
+    build:
+       context: app
+       dockerfile: Dockerfile-dev
+    image: atsea_app
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    networks:
+      - front-tier
+      - back-tier
+    secrets:
+      - postgres_password
+
+secrets:
+  postgres_password:
+    file: ./devsecrets/postgres_password
+    
+networks:
+  front-tier:
+  back-tier:
+  payment:
+    driver: overlay

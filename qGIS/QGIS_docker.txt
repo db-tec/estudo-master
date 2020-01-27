@@ -1,0 +1,145 @@
+https://docs.qgis.org/3.4/pdf/pt_BR/
+https://qgis.org/pyqgis/3.6/
+https://plugins.qgis.org/
+
+==> http://www.qgistutorials.com/pt_BR/index.html
+==> http://www.qgistutorials.com/pt_BR/docs/introduction.html
+==> http://www.qgistutorials.com/pt_BR/docs/learning_resources.html
+https://github.com/spatialthoughts/qgis-tutorials
+https://github.com/spatialthoughts/qgis-tutorials/tree/master/downloads
+
+https://www.qgistutorials.com/es/docs/digitizing_basics.html
+
+--> https://www.e-education.psu.edu/geog489/node/2295
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+https://github.com/qgis/QGIS/tree/master/.docker
+
+# Allow connections from any host
+
+$ xhost +
+
+$ mkdir workspace && cd workspace
+
+$ docker run --rm -it --name qgis \
+-v /tmp/.X11-unix:/tmp/.X11-unix  \
+-v ${PWD}:/root/workspace \
+-e DISPLAY=unix$DISPLAY \
+qgis/qgis:latest qgis
+
+"ou" com rede local:
+
+$ docker run --rm --net=host -it --name qgis \
+-v /tmp/.X11-unix:/tmp/.X11-unix  \
+-v ${PWD}:/root/workspace \
+-e DISPLAY=unix$DISPLAY \
+qgis/qgis:latest qgis
+
+This code snippet will launch QGIS inside a container and display the application on your screen.
+
+obs.:	IMPORTANTE:
+
+	$ docker ps
+	$ docker exec -it -u 0 13388846d193 /bin/bash
+
+	==> This is the QT Designer executable that you can use for creating Qt5 GUIs:
+	root@cd188d5f9fec:/# designer 
+
+	==> for compiling QT5 resource files
+	root@cd188d5f9fec:/# pyrcc5 
+		PyQt5 resource compiler
+		Usage: pyrcc5 [options] <inputs>
+	
+	==> teste acesso geoServer:
+	$ wget http://172.17.0.5:8080/geoserver/gwc/service/wmts?REQUEST=GetCapabilities
+
+	==> local de instalação de novos plugins:
+	/root/.local/share/QGIS/QGIS3/profiles/default/python/plugins
+
+	root@48b0d02a66f9:~/.local/share/QGIS/QGIS3/profiles/default#
+
+	==> Para instalar novas libs python via console do qGI:
+	>>> import os
+	>>> os.system('pip3 install pandas')
+	0
+	>>> import pandas as pd
+	>>> pd
+	<module 'pandas' from '/usr/local/lib/python3.6/dist-packages/pandas/__init__.py'>
+
+	obs.: O valor "0" retornado acima significa que o comando "a instalação" ocorreu com sucesso!
+		
+		>>> retorno = os.system('pip3 install pandas')
+		>>> print(retorno) # caso retorno algo diferente de 0 -> houve um erro!
+	
+
+In qGIS ("Create a New WMS/WMTS Connection")
+
+(para wms)
+==> URL = http://172.17.0.5:8080/geoserver/wms?
+
+E
+
+(para wmts)
+==> URL = http://172.17.0.5:8080/geoserver/gwc/service/wmts?REQUEST=GetCapabilities
+
+
+obs.:
+
+Go to Plugins -> Manage and Install Plugins in the main menu bar
+Under "Settings", make sure the box next to "Show also experimental plugins" is checked.
+Under "Not installed" look for the following three plugins and install them:
+
+    QuickMapServices (allows for quickly adding basemaps like OSM to a project)
+    Plugin Builder 3 (for creating templates for new plugins)
+    Plugin Reloader (for reloading a plugin after modifying the code)
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++ https://github.com/boundlessgeo/qgis-geoserver-plugin ++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+$ docker ps
+$ docker exec -it -u 0 13388846d193 /bin/bash
+
+# cd
+# git clone https://github.com/boundlessgeo/qgis-geoserver-plugin
+# cd qgis-geoserver-plugin
+# pip3 install paver
+# paver setup
+# paver install
+symlink path('/root/qgis-geoserver-plugin/geoserverexplorer') path('/root/.local/share/QGIS/QGIS3/profiles/default/python/plugins/geoserverexplorer')
+
+obs.: 
+	1) Criar diretorio "geoserverexplorer" ao invés de linkSimbólico que está em "/root/.local/share/QGIS/QGIS3/profiles/default/python/plugins"
+	2) Colocar "/root/.local/share/QGIS/QGIS3/profiles/default/python/plugins", Em Settings -> Options -> System -> Plugin Paths
+	3) Chamar "Plugins" -> "Manage and Install Plugins" para marcar "geoserverexplorer" em "Installed"
+	4) Abrir no menu "Web" -> "Geoserver"
+	"Caso não apareça" instalar o plugin "Plugin Reloader" e selecionar "geoserverexplorer"
+	5) Em "Geoserver Explorer" -> "Catalogs" colocar:
+	
+		"Geoserver Local (admin)"			
+		http://172.17.0.3:8080/geoserver
+		admin
+		geoserver
+		
+		obs.: IP acima via:
+		$ docker run --rm -d -p 8080:8080 -v ${PWD}:/opt/geoserver/data_dir --name=gs_kartoza kartoza/geoserver
+		$ docker ps
+		$ docker inspect
+
+
+	
+
+$ docker ps
+
+$ docker commit 48b0d02a66f9 qgis/qgis:latest
+
+$ docker images
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+https://github.com/kartoza/docker-qgis-desktop
+

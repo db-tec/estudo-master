@@ -1,0 +1,9 @@
+[submodule "CertificadoDigital/demoiselle-loginmodule"]
+	path = CertificadoDigital/demoiselle-loginmodule
+	url = ../demoiselle-loginmodule.git
+[submodule "CertificadoDigital/certificate"]
+	path = CertificadoDigital/certificate
+	url = ../certificate.git
+[submodule "CertificadoDigital/demo2-serpro-rc2-jaas"]
+	path = CertificadoDigital/demo2-serpro-rc2-jaas
+	url = ../demo2-serpro-rc2-jaas.git

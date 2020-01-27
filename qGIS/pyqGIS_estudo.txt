@@ -1,0 +1,507 @@
+https://docs.qgis.org/3.4/pdf/pt_BR/
+https://www.qgis.org/pyqgis/master/
+https://qgis.org/pyqgis/3.6/
+https://qgis.org/api/
+https://plugins.qgis.org/
+https://docs.qgis.org/3.7/C/docs/user_manual/plugins/python_console.html
+https://docs.qgis.org/testing/en/docs/user_manual/plugins/python_console.html
+https://docs.qgis.org/testing/en/docs/pyqgis_developer_cookbook/plugins/index.html#developing-python-plugins
+
+
+--==> http://www.convertcsv.com/csv-to-geojson.htm
+--==> http://www.convertcsv.com/geojson-to-csv.htm
+
+
+(GEOG 489: Advanced Python Programming for GIS):
+--> https://www.e-education.psu.edu/geog489/node/1405
+--> https://www.e-education.psu.edu/geog489/l2_p4.html
+--> https://www.e-education.psu.edu/geog489/node/2228
+--> https://www.e-education.psu.edu/geog489/node/2231
+--> https://www.e-education.psu.edu/geog489/node/2232
+--> https://www.e-education.psu.edu/geog489/l2_p6.html
+--> https://www.e-education.psu.edu/geog489/node/2362
+--> https://www.e-education.psu.edu/geog489/l4.html
+--> https://www.e-education.psu.edu/geog489/l4_p4.html
+--> https://www.e-education.psu.edu/geog489/node/2295
+--> https://www.e-education.psu.edu/geog489/node/2297
+
+
+==> https://github.com/g-sherman/Qgis-Plugin-Builder
+==> http://g-sherman.github.io/Qgis-Plugin-Builder/
+==> https://plugins.qgis.org/plugins/pluginbuilder3/
+==> http://g-sherman.github.io/Qgis-Plugin-Builder/#the-repository
+
+
+--> http://www.qgistutorials.com/pt_BR/docs/getting_started_with_pyqgis.html
+--> http://www.qgistutorials.com/pt_BR/docs/building_a_python_plugin.html
+--> http://www.qgistutorials.com/pt_BR/docs/using_plugins.html
+
+++> https://2engenheiros.com/2018/07/17/criar-plugin-para-qgis-parte1/
+++> https://2engenheiros.com/2018/07/24/criar-plugin-para-qgis-parte2/
+
+https://doc.qt.io/qtcreator/index.html
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+(https://docs.qgis.org/3.4/pdf/pt_BR/QGIS-3.4-PyQGISDeveloperCookbook-pt_BR.pdf)
+
+qGIS -> Plugins → Python Console menu:
+Plugins ‣ Python Console (Ctrl+Alt+P).
+
+# For interaction with the QGIS environment,  there is a iface variable,  which is an instance of QgisInterface.  
+# This interface allows access to the map canvas, menus, toolbars and other parts of the QGIS application.
+'''
+from qgis.core import *
+import qgis.utils
+# The 'qgis.gui' module brings various GUI components
+'''
+>>> layer = qgis.utils.iface.activeLayer()
+>>> # name = layer.id()
+>>> mc = qgis.utils.iface.mapCanvas()
+>>> current = mc.currentLayer()
+>>> name = current.name()
+>>> value = layer.featureCount()
+>>> qgis.utils.iface.mapCanvas().setSelectionColor( QColor("red") )
+>>> if value == 1:
+...	currentLayer.select(0)
+>>> qgis.utils.iface.messageBar().pushMessage("The layer '{}' featureCount is {}!".format(name, value))
+>>> currentLayer.removeSelection()
+
+
+xxxxxxxxxxxxxxxxxx OK !!! FUNCIONA !!!
+
+layer = qgis.utils.iface.activeLayer()
+crsSrc = QgsCoordinateReferenceSystem(4326, QgsCoordinateReferenceSystem.EpsgCrsId)
+error = qgis.core.QgsVectorFileWriter.writeAsVectorFormat(layer, "/root/workspace/teste_agora_layer.json", "utf-8", crsSrc, "GeoJSON")
+if error[0] == 0:
+	print("success again!")
+
+# QgsVectorFileWriter.writeAsVectorFormat(layer, r'C:\489\highPopulationCountries.gpkg', 'utf-8', layer.crs(),'GPKG', True)
+
+xxxxxxxxxxxxxxxxxx
+
+
+layers = iface.mapCanvas().layers() 
+for layer in layers: 
+	print(layer) 
+	print(layer.name()) 
+	print(layer.id()) 
+	print('------') 
+
+layer.selectAll() 
+layer.removeSelection()
+==> layer.selectByExpression('"AREA" > 300000')
+
+-- (https://www.e-education.psu.edu/geog489/book/export/html/1752):
+selectionName = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"NAME" = \'Canada\'')) 
+feature = selectionName.__next__() 
+print(feature['NAME'] + "-" + str(feature.id()))
+print(feature.geometry()) 
+print(feature.geometry().asWkt())
+
+	Output: 
+	Canada – 23 
+	<qgis._core.QgsGeometry object at 0x...> 
+	MultiPolygon (((-65.61361699999997654 43.42027300000000878,...)))
+
+selectionPopulation = layer.getFeatures(QgsFeatureRequest().setFilterExpression('"POP2005" > 50000000'))
+layer.selectByIds([f.id() for f in selectionPopulation]) 
+
+layer = qgis.core.QgsVectorLayer(r'C:\489\TM_WORLD_BORDERS-0.3.shp')
+bufferLayer = qgis.core.QgsVectorLayer("Polygon?crs=" + layer.crs().authid() + "&field=NAME:string(255)", "temporary_buffers", "memory")
+
+-- (https://www.e-education.psu.edu/geog489/node/2227):
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QGridLayout, QLineEdit, QPushButton 
+def convert(): 
+    """Takes miles entered, converts them to km, and displays the result"""
+    miles = float(entryMiles.text()) 
+    entryKm.setText(str(miles * 1.60934)) 
+app = QApplication([]) 
+rootWindow = QWidget() 
+rootWindow.setWindowTitle("Miles to kilometers") 
+rootWindow.resize(500, 200) 
+gridLayout = QGridLayout(rootWindow) 
+labelMiles = QLabel('Distance in miles:') 
+gridLayout.addWidget(labelMiles, 0, 0) 
+labelKm = QLabel('Distance in kilometers:') 
+gridLayout.addWidget(labelKm, 2, 0) 
+entryMiles = QLineEdit() 
+gridLayout.addWidget(entryMiles, 0, 1) 
+entryKm = QLineEdit() 
+gridLayout.addWidget(entryKm, 2, 1) 
+convertButton = QPushButton('Convert') 
+gridLayout.addWidget(convertButton, 1, 1) 
+convertButton.clicked.connect(convert) 
+rootWindow.show() 
+app.exec_() 
+
+--(https://www.e-education.psu.edu/geog489/node/2228):
+import sys
+from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QGridLayout, QPushButton 
+from PyQt5.QtCore import Qt 
+app = QApplication(sys.argv) 
+window = QWidget() 
+window.resize(400,200) 
+window.setWindowTitle("PyQt5 example 1") 
+layout = QGridLayout(window) 
+label = QLabel("Just a window with a label (now perfectly centered!)") 
+label.setAlignment(Qt.AlignCenter) 
+layout.addWidget(label,0,0) 
+button = QPushButton("Close me") 
+button.setToolTip('This is a <b>QPushButton</b> widget. Clicking it will close the program!') 
+layout.addWidget(button,1,0) 
+button.clicked.connect(app.quit) 
+window.show() 
+sys.exit(app.exec_()) 
+
+--(https://www.e-education.psu.edu/geog489/node/2231):
+import sys 
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, QStyle, QFileDialog, QMessageBox, QWidget, QGridLayout, QLabel, QMenu 
+from PyQt5.QtCore import Qt 
+def openFile(): 
+     fileName, _ = QFileDialog.getOpenFileName(mainWindow, "Open file", "", "All files (*.*)") 
+     if fileName: 
+         mainWindow.statusBar().showMessage('User has picked file ' + fileName) 
+     else: 
+         mainWindow.statusBar().showMessage('User canceled the file dialog.') 
+def saveFile(): 
+     QMessageBox.information(mainWindow, 'Important information', 'Save file has not been implemented yet, sorry!', QMessageBox.Ok) 
+def toggleLabel(state): 
+     if state: 
+         label.show() 
+     else: 
+         label.hide() 
+app = QApplication(sys.argv) 
+mainWindow = QMainWindow() 
+mainWindow.resize(400,200) 
+mainWindow.setWindowTitle("PyQt5 example 2") 
+mainWindow.setCentralWidget(QWidget()) 
+layout = QGridLayout(mainWindow.centralWidget()) 
+label = QLabel("Some text ...") 
+label.setAlignment(Qt.AlignCenter) 
+layout.addWidget(label,0,0) 
+fileMenu = mainWindow.menuBar().addMenu('&File') 
+optionsMenu = mainWindow.menuBar().addMenu('&Options') 
+openAction = QAction('&Open...', mainWindow) 
+openAction.triggered.connect(openFile) 
+fileMenu.addAction(openAction) 
+saveAction = QAction('&Save', mainWindow) 
+saveAction.triggered.connect(saveFile) 
+fileMenu.addAction(saveAction) 
+exitAction = QAction(app.style().standardIcon(QStyle.SP_DialogCancelButton), '&Exit', mainWindow) 
+exitAction.setShortcut('Ctrl+Q') 
+exitAction.setStatusTip('Exit application') 
+exitAction.triggered.connect(app.quit) 
+fileMenu.addAction(exitAction) 
+toggleLabelAction = QAction('&Toggle label', mainWindow, checkable=True) 
+toggleLabelAction.setChecked(True) 
+toggleLabelAction.triggered.connect(toggleLabel) 
+optionsMenu.addAction(toggleLabelAction) 
+otherOptionsSubmenu = QMenu('&Other options', mainWindow) 
+otherOption1Action = QAction('Other option &1', mainWindow, checkable=True) 
+otherOption2Action = QAction('Other option &2', mainWindow, checkable=True) 
+otherOptionsSubmenu.addAction(otherOption1Action) 
+otherOptionsSubmenu.addAction(otherOption2Action) 
+optionsMenu.addMenu(otherOptionsSubmenu) 
+mainWindow.statusBar().showMessage('Waiting for your commands...') 
+mainWindow.show() 
+sys.exit(app.exec_()) 
+
+--(https://www.e-education.psu.edu/geog489/node/2214):
+(https://pcjericks.github.io/py-gdalogr-cookbook/index.html)
+from osgeo import gdal
+from osgeo import ogr
+from osgeo import osr
+shapefile = r'C:\489\L3\TM_WORLD_BORDERS-0.3.shp'
+drv =ogr.GetDriverByName('ESRI Shapefile')
+dataSet = drv.Open(shapefile)
+layer = dataSet.GetLayer(0)
+layerDefinition = layer.GetLayerDefn()
+for i in range(layerDefinition.GetFieldCount()):
+    print(layerDefinition.GetFieldDefn(i).GetName())
+for feature in layer:
+    print(feature.GetField('NAME'))
+layer.ResetReading()
+for feature in layer:
+    print(feature.GetField('NAME') + '–' + feature.GetGeometryRef().Centroid().ExportToWkt())
+layer.ResetReading()
+layer.SetAttributeFilter('POP2005 > 100000000')
+for feature in layer:
+    print(feature.GetField('NAME'))
+layer.ResetReading()
+sr = osr.SpatialReference()   # create spatial reference object
+sr.ImportFromEPSG(4326)       # set it to EPSG:4326
+outfile = drv.CreateDataSource(r'C:\489\L3\centroidbuffers.shp') # create new shapefile
+outlayer = outfile.CreateLayer('centroidbuffers', geom_type=ogr.wkbPolygon, srs=sr)  # create new layer in the shapefile 
+nameField = ogr.FieldDefn('Name', ogr.OFTString)        # create new field of type string called Name to store the country names
+outlayer.CreateField(nameField)                         # add this new field to the output layer
+nameField = ogr.FieldDefn('Population', ogr.OFTInteger) # create new field of type integer called Population to store the population numbers
+outlayer.CreateField(nameField)                         # add this new field to the output layer
+featureDefn = outlayer.GetLayerDefn()  # get field definitions
+for feature in layer:                                              # loop through selected features
+    ingeom = feature.GetGeometryRef()                              # get geometry of feature from the input layer
+    outgeom = ingeom.Centroid().Buffer(2.0)                        # buffer centroid of ingeom
+    outFeature = ogr.Feature(featureDefn)                          # create a new feature
+    outFeature.SetGeometry(outgeom)                                # set its geometry to outgeom
+    outFeature.SetField('Name', feature.GetField('NAME'))          # set the feature's Name field to the NAME value of the input feature
+    outFeature.SetField('Population', feature.GetField('POP2005')) # set the feature's Population field to the POP2005 value of the input feature 
+    outlayer.CreateFeature(outFeature)                             # finally add the new output feature to outlayer
+    outFeature = None
+layer.ResetReading()
+outfile = None         # close output file
+
+
+--(https://pcjericks.github.io/py-gdalogr-cookbook/geometry.html#write-geometry-to-geojson):
+from osgeo import ogr
+# Create test polygon
+ring = ogr.Geometry(ogr.wkbLinearRing)
+ring.AddPoint(1179091.1646903288, 712782.8838459781)
+ring.AddPoint(1161053.0218226474, 667456.2684348812)
+ring.AddPoint(1214704.933941905, 641092.8288590391)
+ring.AddPoint(1228580.428455506, 682719.3123998424)
+ring.AddPoint(1218405.0658121984, 721108.1805541387)
+ring.AddPoint(1179091.1646903288, 712782.8838459781)
+poly = ogr.Geometry(ogr.wkbPolygon)
+poly.AddGeometry(ring)
+# Create the output Driver
+outDriver = ogr.GetDriverByName('GeoJSON')
+# Create the output GeoJSON
+outDataSource = outDriver.CreateDataSource('test.geojson')
+outLayer = outDataSource.CreateLayer('test.geojson', geom_type=ogr.wkbPolygon )
+# Get the output Layer's Feature Definition
+featureDefn = outLayer.GetLayerDefn()
+# create a new feature
+outFeature = ogr.Feature(featureDefn)
+# Set new geometry
+outFeature.SetGeometry(poly)
+# Add new feature to output Layer
+outLayer.CreateFeature(outFeature)
+# dereference the feature
+outFeature = None
+# Save and close DataSources
+outDataSource = None
+
+--
+
+from osgeo import ogr
+# Create test polygon
+ring = ogr.Geometry(ogr.wkbLinearRing)
+ring.AddPoint(1179091.1646903288, 712782.8838459781)
+ring.AddPoint(1161053.0218226474, 667456.2684348812)
+ring.AddPoint(1214704.933941905, 641092.8288590391)
+ring.AddPoint(1228580.428455506, 682719.3123998424)
+ring.AddPoint(1218405.0658121984, 721108.1805541387)
+ring.AddPoint(1179091.1646903288, 712782.8838459781)
+poly = ogr.Geometry(ogr.wkbPolygon)
+poly.AddGeometry(ring)
+geojson = poly.ExportToJson()
+print geojson
+
+
+
+
+
+>>> qgis.core.QgsJsonUtils.exportAttributes(selected_features[0])
+
+layer = qgis.utils.iface.activeLayer()
+# layer.selectAll() # usar "Select Features by Polygon" ou "Select Features using an expression"
+selected_features = layer.selectedFeatures()
+for i in selected_features:
+	# attrs = i.attributeMap()
+	# i.fields().names()  ==> ['ID_LOTE_CT', 'NULOTCTM', 'ID_QUADRA_']
+	# print(...	i['ID_LOTE_CT']	i['NULOTCTM']	i['ID_QUADRA_']
+	#
+	# ==> i.hasGeometry()
+	# ==> i.geometry()
+	#
+	# ==> i.geometry().asJson()
+	#
+	# ==> VER: 	dir(i.geometry())
+	# ==> i.geometry().type()
+	# ==> i.geometry().area()
+	#
+	# ==> i.__geo_interface__ ####  # GeoJSON attributes of a feature ####
+	# ==> s = str(i.__geo_interface__)
+	# ==> s.replace("'", "\"")
+	#
+	attrs = i.attributes()
+	# l = i.fields().toList()
+	# l[0].displayName()
+	# l[0].__doc__
+	# for (k, attr) in attrs.iteritems():
+	for (k, attr) in enumerate(attrs):
+		print("%d: %s", k, attr)
+
+
+
+def mapping_feature(feature):
+	i = feature
+	geom = feature.geometry() # Para uma unica geometria
+	'''
+	properties = {}
+	fields = [field.name() for field in feature.fields()]
+	properties = dict(zip(fields, feature.attributes()))
+	'''
+	# qgis.core.QgsJsonUtils.encodeValue(i.__geo_interface__)
+	s = str(i.__geo_interface__)
+	geo = s.replace("'", "\"")
+	# print("{}{}type{} : {}FeatureCollection{}{} {}features{} : [{}]{}".format("{", "\"", "\"", "\"", "\"", ",", "\"", "\"", geo, "}"))	
+	return { "type" : "FeatureCollection", "features" : [ geo ] }
+
+
+
+from qgis.core import Qgis
+qgis.utils.iface.messageBar().pushMessage("Error", "I'm sorry Dave, I'm afraid I can't do that", level=Qgis.Critical, duration=3) # 3 segundos
+'''
+0.  Info
+1.  Warning
+2.  Critical # Qgis.Critical
+3.  Success
+'''
+
+
+def showError():
+	pass
+widget = iface.messageBar().createMessage("Missing Layers", "Show Me")
+button = QPushButton(widget)
+button.setText("Show Me")
+button.pressed.connect(showError)
+widget.layout().addWidget(button)
+iface.messageBar().pushWidget(widget, Qgis.Warning)
+	
+
+
+# currentLayer.sourceCrs().toWkt()
+# currentLayer.sourceCrs().authid()
+# 
+#
+# dir(currentLayer.getFeatures())
+# dir(currentLayer)
+# print(currentLayer.source())
+# print(currentLayer.featureCount())
+# dir(currentLayer.fields())
+# print(currentLayer.fields().names())
+# lista = currentLayer.fields().toList()
+# print(lista)
+# lista[0].length()
+# lista[0].name()
+# dir(currentLayer.sourceCrs())
+# currentLayer.sourceCrs().srsid()
+##
+# if currentLayer is None:
+	raise QgsProcessingException(self.invalidSourceError(parameters, self.INPUT))
+# Update the progress bar:
+# feedback.setProgress(int(current * total))
+
+# obtain the layer tree of the top-level group in the project
+layerTree = qgis.utils.iface.layerTreeCanvasBridge().rootGroup()
+layerTree.isVisible()
+layerTree.layerOrder()[0].id()
+
+for field in currentLayer.fields():
+	print(field.name(), field.typeName())
+
+for f in currentLayer.getFeatures():
+	#print(f['name'])
+	print(f.geometry())
+	print(f.attributes()) # lista com os valores para cada tipo de atributo
+	print(f.geometry().type()) # QgsWkbTypes.PointGeometry, QgsWkbTypes.LineGeometry, QgsWkbTypes.PolygonGeometry, 
+	if QgsWkbTypes.isSingleType(f.geometry().wkbType()):
+		print( ... # f.geometry().asPoint(), f.geometry().asPolyline(), f.geometry().asPolygon()
+		print("singleType")
+	else:
+		print( ... # f.geometry().asMultiPoint(), f.geometry().asMultiPolyline(), f.geometry().asMultiPolygon()
+		# for "Polygon" -> f.geometry().area()
+
+
+OBS.:
+
+gPnt.wkbType() == QgsWkbTypes.Point
+# output: True
+gLine.wkbType() == QgsWkbTypes.LineString
+# output: True
+gPolygon.wkbType() == QgsWkbTypes.Polygon
+# output: True
+gPolygon.wkbType() == QgsWkbTypes.MultiPolygon
+# output: False
+
+
+
+qgis.utils.iface.mapCanvas().setSelectionColor( QColor("red") )
+
+res = layer.dataProvider().addAttributes([QgsField("mytext", QVariant.String), QgsField("myint", QVariant.Int)])
+
+attrs = { 0 : "hello", 1 : 123 }
+# fid = 100 (ID of the feature we will modify):
+layer.dataProvider().changeAttributeValues({ fid : attrs })
+
+# update an attribute with given field index (int) to a given value
+layer.changeAttributeValue(fid, fieldIndex, value)
+# add new field
+layer.addAttribute(QgsField("mytext", QVariant.String))
+
+feat.setAttributes([0, 'hello'])
+feat.setAttribute('name', 'hello')
+
+
+====> layer.updateFields()
+
+
+from qgis.PyQt.QtCore import QVariant
+# create layer
+vl = QgsVectorLayer("Point", "temporary_points", "memory")
+pr = vl.dataProvider()
+# add fields
+pr.addAttributes([QgsField("name", QVariant.String),
+	QgsField("age",  QVariant.Int),
+	QgsField("size", QVariant.Double)])
+vl.updateFields() # tell the vector layer to fetch changes from the provider
+
+# add a feature
+fet = QgsFeature()
+fet.setGeometry(QgsGeometry.fromPointXY(QgsPointXY(10,10)))
+fet.setAttributes(["Johny", 2, 0.3])
+pr.addFeatures([fet])
+# update layer's extent when new features have been added
+# because change of extent in provider is not propagated to the layer
+vl.updateExtents()
+
+# show some stats
+print("fields:", len(pr.fields()))
+print("features:", pr.featureCount())
+e = vl.extent()
+print("extent:", e.xMinimum(), e.yMinimum(), e.xMaximum(), e.yMaximum())
+
+
+** (PARA GUI VER): PAGINA 36 (Chapter 5. Usando Camadas Vetor) DE "https://docs.qgis.org/3.4/pdf/pt_BR/QGIS-3.4-PyQGISDeveloperCookbook-pt_BR.pdf":
+
+from qgis.gui import
+QgsRendererWidget, QgsColorButton
+class RandomRendererWidget(QgsRendererWidget):
+
+
+...
+
+
+obs.:
+
+1)
+
+>>> exec(open('/root/workspace/estudo-001.py'.encode('utf-8')).read())
+
+Ctrl+Shift+Space to view the command history: double-clicking a row will execute the command.
+
+2)
+
+Every time QGIS starts, the user’s Python home directory
+•  Linux:
+.local/share/QGIS/QGIS3
+
+# startup.py
+# PYQGIS_STARTUP # environment variable to an existing Python file "startup.py"
+
+>>> QStandardPaths.standardLocations(QStandardPaths.AppDataLocation)
+['/root/.local/share/QGIS/QGIS3', '/usr/local/share/QGIS/QGIS3', '/usr/share/QGIS/QGIS3']
+
+
+==> /root/.local/share/QGIS/QGIS3/profiles/default/processing/scripts
+

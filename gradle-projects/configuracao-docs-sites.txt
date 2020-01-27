@@ -1,0 +1,269 @@
+* Fontes:
+
+	http://www.vogella.com/tutorials/EclipseGradle/article.html
+
+1) Install Eclipse Gradle (Buildship) tooling:
+
+	i) Installation via the Marketplace
+
+	-> The easiest way to install the Eclipse Gradle tooling is by using the Marketplace client. Search for Buildship.
+
+	==> "Buildship Gradle Integration 2.0"
+
+
+	ii) Installation via the Eclipse update manager
+
+	-> You also can use the Help ▸ Install New Software menu path to install the Gradle tooling.
+
+===============================================
+
+2) Creating Gradle projects (via eclipse)
+
+-> The Eclipse Gradle tooling provides a wizard for the creation of Java based Gradle projects.
+
+
+Obs.: 
+
+	*************************
+	* Configuração do lombok
+	*************************
+	Fonte:
+		https://howtodoinjava.com/automation/lombok-eclipse-installation-examples/
+		http://blog.caelum.com.br/java-menos-verboso-com-lombok/
+
+		http://www.vogella.com/tutorials/Lombok/article.html
+		https://projectlombok.org/download.html
+
+	1) Install Lombok in Eclipse (Enable lombok for Eclipse or Spring Tool Suite):
+	
+	i)
+
+	$ java -jar lombok-1.16.18.jar 
+
+	==> ver em eclipse.ini: "-javaagent:/home/02963357460/Desenvolvimento-SINTER/ferramentas/eclipse/lombok.jar"
+		
+		1. copy `lombok.jar` to where your eclipse folder where is the `eclipse.ini` ;
+		2. open `eclipse.ini`，put at end the two lines below and save it：
+    		-Xbootclasspath/a:lombok.jar
+		-javaagent:lombok.jar
+		3. restart  `eclipse`.
+	
+	ii) ==> The lombok library "lombok.jar"  (QUE ESTÁ NA PASTA DO ECLIPSE) can also be be added to the classpath (Edit JRE -> Add External JARs -> lombok.jar).
+	
+	iii) E lançar o eclipse com:
+		
+		$ eclipse &
+		ou		
+		$ eclipse -clean &
+
+$ gradle eclipse --refresh-dependencies
+
+Obs.:
+
+	**************************************************
+	* Configurações / utilizações no gradle no Eclipse
+	**************************************************
+	Fonte:
+		http://www.vogella.com/tutorials/EclipseGradle/article.html
+
+	i) usar view "Gradle Tasks" para cadas Gradle Import Project 
+
+===============================================
+
+3) Creating Gradle projects (via prompt)
+
+$ sdk version
+
+Obs.: 
+
+	****************
+	* Instalação sdk
+	****************
+	Fonte:
+		http://sdkman.io/install.html
+
+	i) $ curl -s "https://get.sdkman.io" | bash
+	ii) $ source "$HOME/.sdkman/bin/sdkman-init.sh"
+	iii) $ sdk version
+
+$ sdk install gradle
+
+ou
+
+$ sdk update gradle
+
+obs.: Ou criar o wrapper:
+
+	$ gradle wrapper --gradle-version 2.13
+
+	ou
+
+	$ sudo apt-get install gradle
+
+$ mkdir sinter-projeto
+
+$ cd sinter-projeto
+
+$ mkdir -p src/{main,test}/java
+$ mkdir -p src/{main,test,resources}
+
+$ ./gradlew
+
+$ ./gradlew --help
+
+$ ./gradlew tasks
+
+$ ./gradlew help --task jar
+
+$ ./gradlew build
+//$ ./gradlew jar
+
+Obs.: 	
+
+	*************************************	
+	* Comandos de construção importantes:
+	*************************************	
+	
+	$ gradle shadowJar
+	$ unzip -l build/libs/projetoXPTO-0.0.1-all.jar | less
+
+$ java -jar build/libs/projeto-0.0.1-all.jar --name=Nubio
+
+//$ ./gradlew build && java -jar build/libs/projeto-0.0.1-all.jar --name=Nubio
+
+"Ou" para rodar o programa sem passar parâmetros:
+
+$ ./gradlew bootRun
+
+Obs.:
+
+	*************************
+	* Demais comandos do gradle
+	*************************
+
+	$ gradle init
+
+	Obs.: Pode-se utilizar "gradle init" num projeto maven para importar o mesmo para gradle!!!
+
+	$ gradle build
+	$ ./gradlew build
+
+	$ ./gradlew shadowJar
+
+	$ jar tvf build/libs/sinter-projeto-0.0.1-all.jar
+
+	$ java -jar build/libs/sinter-projeto-0.0.1-all.jar
+
+	ou
+
+	$ ./gradlew run
+
+Obs.: 
+
+	*****************************************************
+	* Configurando para execultar ou não testes unitários
+	*****************************************************	
+	Fonte:
+
+		https://docs.gradle.org/current/dsl/org.gradle.api.tasks.testing.Test.html
+
+	i) em colocar "build.gradle":
+
+	apply plugin: 'java' // adds 'test' task
+
+	test {
+
+	  // enable TestNG support (default is JUnit)
+	  //useTestNG()
+	  useJUnit()
+
+	  // set a system property for the test JVM(s)
+	  systemProperty 'some.prop', 'value'
+
+	  // explicitly include or exclude tests
+	  include 'org/foo/**'
+	  exclude 'org/boo/**'
+
+	  // show standard out and standard error of the test JVM(s) on the console
+	  testLogging.showStandardStreams = true
+
+	  // set heap size for the test JVM(s)
+	  minHeapSize = "128m"
+	  maxHeapSize = "512m"
+
+	  // set JVM arguments for the test JVM(s)
+	  jvmArgs '-XX:MaxPermSize=256m'
+
+	  // listen to events in the test execution lifecycle
+	  beforeTest { descriptor ->
+	     logger.lifecycle("Running test: " + descriptor)
+	  }
+
+	  // listen to standard out and standard error of the test JVM(s)
+	  onOutput { descriptor, event ->
+	     logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message )
+	  }
+
+	}
+
+	$ gradle someTestTask --debug-jvm
+
+	run all tests: $ ./gradlew test
+	run all unit tests: $ ./gradlew unitTest
+	run all functional tests: $ ./gradlew test -Dtest.single=cucumber/**/
+
+===============================================
+
+4) Gradle projects com spring boot:
+
+Fonte:
+	https://spring.io/guides/gs/spring-boot/
+
+===============================================
+
+5) Gradle projects com docker:
+
+Fonte:
+
+	http://containertutorials.com/docker-compose/spring-boot-app.html
+	https://geowarin.github.io/spring-boot-app-in-docker-image.html
+	https://github.com/Transmode/gradle-docker
+
+
+$ ./gradlew clean
+
+$ ./gradlew buildDocker
+
+//$ ./gradlew build buildDocker
+//$ ./gradlew clean build buildDocker && cp build/libs/sinter-verificar-lote-0.0.1.jar build/docker/target/
+
+obs.:
+
+	**********************************************	
+	* Vendo se todas as dependências estam no .jar
+	**********************************************	
+
+	$ unzip -l build/libs/sinter-verificar-lote-0.0.1.jar | less
+
+$ docker run -t sinter/sinter-verificar-lote
+$ docker run -t sinter/sinter-verificar-lote:0.0.1
+
+$ docker run -t sinter/sinter-verificar-lote java -jar app.jar --name=Eu
+$ docker run -t sinter/sinter-verificar-lote:0.0.1 java -jar app.jar --name=Eu
+
+obs.:
+	
+	*************
+	* Para debugar:
+	*************
+
+$ docker run -e "JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n" -t sinter/sinter-verificar-lote java -jar app.jar --name=Eu
+
+
+6) Gradle project acessando mongoDB:
+
+$ java -Dspring.data.mongodb.uri=mongodb://192.168.99.100:32777/micros -jar build/libs/Employee.jar
+
+obs.: no Dockerfile:
+
+ENTRYPOINT ["java","-Dspring.data.mongodb.uri=mongodb://mongodb/micros", "-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]

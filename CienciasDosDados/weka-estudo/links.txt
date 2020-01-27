@@ -1,0 +1,91 @@
+https://www.cs.waikato.ac.nz/ml/weka/
+https://www.cs.waikato.ac.nz/ml/weka/documentation.html
+
+---
+
+http://www.cs.ubc.ca/labs/beta/Projects/autoweka/
+http://www.cs.ubc.ca/labs/beta/Projects/autoweka/datasets/
+
+https://github.com/automl/autoweka
+
+---
+
+https://deeplearning.cms.waikato.ac.nz/
+
+https://deeplearning4j.org/
+https://deeplearning4j.org/docs/latest/deeplearning4j-quickstart
+
+https://github.com/Waikato/wekaDeeplearning4j
+
+---
+
+https://iaexpert.com.br/?s=weka
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ESTUDAR EXEMPLOR VER:
+
+http://minerandodados.com.br/index.php/2017/04/02/ciencia-dados-weka/
+https://marcosvperboni.wordpress.com/2013/02/15/mineracao-de-dados-na-pratica-com-weka-api/
+https://www.devmedia.com.br/mineracao-de-regras-de-associacao-com-a-ferramenta-de-data-mining-weka/20478
+
+--http://www.facom.ufu.br/~backes/pgc204/:
+http://www.facom.ufu.br/~backes/pgc204/Aula-UsandoWeka.pdf
+
+http://tede2.pucrs.br/tede2/bitstream/tede/3044/1/388093.pdf
+
+http://www.epamig.ufla.br/geosolos/publicacoes/teses/Monografia_Miguel%20Thiago%20Alvarenga.pdf
+
+
+=================== EXEMPLO UTILIZAÇÃO 'AUTO-WEKA'
+
+Auto-WEKA result:
+best classifier: weka.classifiers.meta.AdaBoostM1
+arguments: [-P, 100, -I, 94, -S, 1, -W, weka.classifiers.functions.MultilayerPerceptron, --, -L, 0.4984483870530667, -M, 0.6381916876454622, -H, a, -D, -S, 1]
+attribute search: weka.attributeSelection.GreedyStepwise
+attribute search arguments: [-R]
+attribute evaluation: weka.attributeSelection.CfsSubsetEval
+attribute evaluation arguments: []
+metric: errorRate
+estimated errorRate: 0.0
+training time on evaluation dataset: 5.589 seconds
+
+You can use the chosen classifier in your own code as follows:
+
+AttributeSelection as = new AttributeSelection();
+ASSearch asSearch = ASSearch.forName("weka.attributeSelection.GreedyStepwise", new String[]{"-R"});
+as.setSearch(asSearch);
+ASEvaluation asEval = ASEvaluation.forName("weka.attributeSelection.CfsSubsetEval", new String[]{});
+as.setEvaluator(asEval);
+as.SelectAttributes(instances);
+instances = as.reduceDimensionality(instances);
+Classifier classifier = AbstractClassifier.forName("weka.classifiers.meta.AdaBoostM1", new String[]{"-P", "100", "-I", "94", "-S", "1", "-W", "weka.classifiers.functions.MultilayerPerceptron", "--", "-L", "0.4984483870530667", "-M", "0.6381916876454622", "-H", "a", "-D", "-S", "1"});
+classifier.buildClassifier(instances);
+
+
+Correctly Classified Instances         100              100      %
+Incorrectly Classified Instances         0                0      %
+Kappa statistic                          1     
+Mean absolute error                      0     
+Root mean squared error                  0     
+Relative absolute error                  0      %
+Root relative squared error              0      %
+Total Number of Instances              100     
+
+=== Confusion Matrix ===
+
+  a  b   <-- classified as
+ 66  0 |  a = c0
+  0 34 |  b = c1
+
+=== Detailed Accuracy By Class ===
+
+                 TP Rate  FP Rate  Precision  Recall   F-Measure  MCC      ROC Area  PRC Area  Class
+                 1,000    0,000    1,000      1,000    1,000      1,000    1,000     1,000     c0
+                 1,000    0,000    1,000      1,000    1,000      1,000    1,000     1,000     c1
+Weighted Avg.    1,000    0,000    1,000      1,000    1,000      1,000    1,000     1,000     
+
+Temporary run directories:
+/tmp/autoweka7097186333681869167/
+
+
+For better performance, try giving Auto-WEKA more time.
+

@@ -1,0 +1,246 @@
+Potencial do grande volume de dados gerados, nos diversos segmentos produtivos, no mundo dos negócios, no governo e meios acadêmicos: 
+
+* Aperfeiçoar processos; Aumentar produtividade; Proporcionar melhor tomada de decisão;
+Desenvolver novos produtos e serviços
+* Redução de fraudes; aumento de lucros; conquista de eleitores; redução de custos na produção;
+eficiência energética; aumento de segurança;
+
+
+
+"era dos dados" -> avanços em hardware (armazenamento); software e infraestrutura de redes;
+
+
+nós vivemos em uma Era em que, a (apenas) cada um ano e meio, se gera a mesma quantidade de dados já criados pela humanidade em todos os tempos.
+
+Revista Science -> em 1996 somenente 0,8% dos dados eram armazenados em formato digital, enquanto em 2007 a quantidade de dados digitais já era de 94%
+
+Lei de Moore "capacidade de processamento dobra a cada 18meses"
+
+Já quanto o custo de armazenamento de dados: em 1990 1MB custava U$ 12.000 já a média atual é de U$ 0,03. Ou seja, mesmo já identificando valor da crescente quantidade de dados na década de 90 (foram descartados devido o alto custo de armazenamento)
+
+Um estudo da EMC apontou que, em 2012 dos 643 exabytes de dados no mundo digital, apenas 3% foram utilizados.
+
+==> Diante disso, pesquisadores consideram que estamos vivendo o início de uma nova revolução industrial "sendo os dados os elementos chaves das mudanças"
+
+Estimativas apontam que de todos os dados existentes, 90% foram criados nos últimos 2 anos. 
+
+(VER a "cada segundo" na internet são gerados:
+
+==> bit, byte, kylo, mega, Giga, Tera, Peta, Exa, Zettabytes e yottabytes
+
+Em 2013, a quantidade de informações armazenadas no mundo é estimada em 1200 Exabytes ( = 1ZT) ==> 
+"Se todos os dados fossem impressos em páginas, as mesmas cobririam toda a superfície dos EUA em 52 camadas". "Se fosse armazenada em CD-ROMs empilhados, teriamos cinco pilhas até a lua"
+
+
+Consultoria EMC estima que em 2020 haverá em todo o mundo 44 Zettabytes de dados.
+
+"Essa mudança de escala torna-se difícil de ser mensurável por nós humanos"
+
+Crescimento exorbitante => em termos técnicos exige mudanças em relação à escalabilidade, eficiência, custo e complexidade para análise dos dados"
+
+"O que define se o atributo volume requer uma tecnologia de Big Data é a limitação das ferramentas tradicionais para lidar com o vulume gerado"
+
+dados semiestruturados => dados que possuem uma estrutura pré-definida (porém não com o rigor dos dados relacionais "estruturados" - com esquema rígido), exemplos (estruturas para marcação dos dados): JSON e XML.
+
+Estima-se que dos dados disponíveis globalmente, apenas 20 % são dados estruturados.
+
+Velocidade com que os dados são coletados, tratados e analisados "em alguns contextos, os dados coletados perdem valor com o decorrer do tempo" (recomendações de produtos num ambiente e-commerce: recomendações após uma semana após a compra VS recomendações em tempo-real - no exato momento da compra)"
+
+A varejista Amazon.com, compreendendo o benefício da velociadade, adota um mecanismo de precificação dinâmica (atualiza os valores dos produtos a cada 10min de acordo com a análise da demanda em tempo real de seus suprimentos)
+
+Big Data não é importante só devido a mudança quantitativa dos dados, mas na mudança qualitativa (a partir do valor obtido pelo volume, variedade e velocidade dos dados)
+
+Nem sempre precisamos saber a causa de um fenômeno; em vez disso, podemos deixar que os dados
+falem por si.
+
+VER definição de Big data da Gartner "Big Data 
+
+Dados gerados por máquinas: Cisco projeta que no contexto de IoT teremos 50 bilhões de disponistivos até 2020. IDC "International Data Corporation" prevê em 2020 que dos dados gerados por máquinas representarão 42% de todos os dados existentes.
+
+Mitos:
+
+* Big Data engloba somente dados não estruturados "SGBDs Relacionais vem sendo complementados com outras estruturas (mais tipos de dados) "devido à escalabilidade e flexibilidade de armazenamento"
+
+* Big Data refere-se somente a soluções com petabytes de dados
+
+* Big Data é aplicado somente às empresas do Vale do Silício e somente para grandes empresas (serviços Web do FaceBook, Twitter e Netflix)
+
+* As tecnologias de Big Data já estão bem estabelecidas -> Não devido ao surgimento de novas oportunidades ainda não aproveitadas (dados gerados por máquinas -> O que os registros de logs pelos dispositivos de infraestrutura pode nos informar? O que fazer com os dados coletados de redes de sensores? Pois, diferente dos dados gerados por humanos, podem gerar diferentes percepções
+
+Famosa frase "Big Data é o novo petróleo" póis, como no caso dos hidrocarbonetos, o valor se obtem após um processo de refinamento "dados brutos para um determinado produto"
+
+NoSQL -> novos modelos de armazenamento de dados para atender as necessidades de flexibilidade, 
+disponibilidade, escalabilidade e desempenho no contexto de Big Data.
+
+O termo one-size-fits-all não se enquadra em NoSQL (não existe um modelo de armazenamento único que seja adequado para todos os cenários de aplicações)
+
+Esses modelos NoSQL são classificados de acordo com a estrutura que os dados são armazenados: modelo chave-valor "adequado para aplicações que realizam leituras frequentes"; orientado a documentos; orientado a coluna e orientado a grafos.
+
+Jeff Bezos - Amazon "Nunca descartamos dados"
+
+Reid Hoffman - LinkedIn "a Web 3.0 tem a ver com dados"
+
+A verdadeira revolução não está nas máquinas que calculam os dados, e sim nos dados em si e na 
+maneira como os usamos.
+
+A avalanche de dados no mundo supera não apenas nossas máquinas como nossa imaginação.
+
+(google carro auto dirigido projeto big data):
+
+“Self-driving Car” ou “Driverless Car”. Existe hoje uma expectativa de mercado que o veículo autônomo esteja circulando nas ruas por volta de 2021 [3.1].
+
+O carro autônomo utiliza uma tecnologia de ponta do “pacote” da IA chamada “Deep Learning” [13] e [13.1] para implementar a “Visão por Computador” [14] do carro.
+
+O “dado” será a matéria principal na sociedade do futuro mas o “dado” sozinho não significa nada. “Ele” precisa ser manipulado! Para criar valor com os “dados” nós precisamos dos algoritmos que irão manipulá-los. É aqui que entra a Inteligência Artificial (IA) [1] trazendo os algoritmos para transformar o “dado” em valor e essa transformação terá um impacto brutal na sociedade nos próximos anos!
+
+
+
+
+Melhor Definição BIG DATA:
+
+(McKinsey Global Institue) "A intensa utilização de redes sociais online, de dispositivos móveis para conexão à Internet, transações e conteúdos digitias e também o crescente uso de computação em nuvem tem gerado quantidades incalculáveis de dados. O termo Big Data refere-se a este conjunto de dados cujo crescimento é exponencial e cuja dimensão está além da habilidade das ferramentas típicas de capturar, gerenciar e analisar dados"
+
+"Big Data pode ser visto como a descoberta do microscópio, que abriu uma nova janela para vermos 
+coisas que já existiam, como bactérias e vírus, mas que não tínhamos conhecimento. O que o microscópio foi para a medicina e a sociedade, o Big Data também o será para as empresas e a própria sociedade" (Big Data - Cezar Taurion)
+
+"diversas fontes de dados: por exemplo, devido a relação simbiótica entre o mundo físico (Internet das Coisas) e o mundo digital (mídias sociais) aparentemente sem relação, podem derivar informações extremamente importantes e fazer análises preditivas mais eficientes." ==> Dados meteorológicos com padrões de compra dos clientes para planejar o tipo de produtos a serem vendidos
+
+Em agosto de 2012, o Facebook divulgou ao blog TechCrunch que processa 2,5 bilhões de conteúdo e mais de 500TB de dados por dia.
+
+Com a Internet das Coisas podemos adicionar inteligência à infraestrutura física que molda nossa sociedade. Uma turbina de um moderno avião comercial a jato gera cerca de 1TB de dados por dia, que devem ser analisados para mantê-la o maior tempo possível em operação. A diferença entre manutenção preventiva e preditiva pode ser vista neste caso. Uma manutenção preventiva diria que a cada x mil horas de vôo a turbina deve ser retirada e revisada. Uma manutenção preditiva analisa os dados de operação gerada pelos sensores da turbina e prevê quando a manutenção deverá ser efetuada.
+
+Dados já começam a ser parte tão importante da economia como trabalho e capital. Estamos passando da era onde capital e trabalho determinam os valores econômicos para outra era onde o valor será a conjunção do capital, trabalho e dados.
+
+Big Data está hoje onde a Internet estava em 1995 (quando começou a onda da 
+Web e as primeiras iniciativas de e-commerce). "Na época alguem poderia prever uma Amazon, um Google ou um Facebook?"
+
+=== O Sorvete de Baunilha e o Pontiac 99 - GM
+
+O gerente da divisão de carros da Pontiac, da GM dos Estados Unidos, recebeu uma curiosa carta de reclamação de um cliente.
+
+“Esta é, a segunda vez que mando uma carta para vocês e, não os culpo por não me responderem. Posso parecer louco, mas nossa família tem o hábito de comer sorvete depois do jantar”...
+
+“repetimos este hábito todas as noites, variando apenas de sabor, sou o encarregado de ir comprá-lo, recentemente comprei um novo Pontiac e desde então minhas idas a sorveteria transformaram-se num pesadelo”...
+
+“O FATO É QUE ESTOU MUITO IRRITADO COM MEU PONTIAC 99” (O Pontiac alérgico a baunilha).
+
+A carta gerou tantas piadas do pessoal da Pontiac e o Presidente da empresa acabou recebendo uma cópia da reclamação. Este resolveu levar o assunto a sério e mandou um engenheiro conversar com o autor da carta.
+
+Esta é a moral de uma história que está circulando de boca em boca entre os principais especialistas norte-americanos em atendimento ao cliente. 
+
+- Lendo sobre BI de Stanley Loh,  para aqueles que não conheciam, como eu, segue trecho:
+
+   " Conta a lenda que um consumidor comprou um carro da GM e depois mandou
+uma carta se queixando. A queixa era a seguinte: quando ele ia na sorveteira e pegava o sorvete de baunilha, ele voltava para o carro e este demorava a dar partida; se ele pegasse qualquer outro sabor de sorvete, ele voltava para o carro e este "pegava" de primeira.
+   Conta ainda a lenda que isto virou piada na GM, uma vez que ninguém imaginava o que o sabor de um sorvete teria a ver com o problema no carro. Acredita-se que um engenheiro foi investigar o caso. Apresentou-se ao cliente e juntos foram testar a teoria que o cliente alegava. Foram até a sorveteria e compraram o sorvete de baunilha.
+   Voltaram para o carro e realmente o carro não deu partida na primeira tentativa nem nas seguintes. Esperaram um pouco, e tentaram de novo. Aí sim o carro ligou. Voltaram para a casa e depois de comerem o sorvete fizeram o mesmo teste só que pegando um sorvete de sabor diferente. Quando voltaram para o carro, a surpresa: o carro "pegou" de primeira. Bom, mas poderia ser acaso ou coincidência. Então testaram diversas vezes, usando métodos estatísticos e o resultado ... sempre o mesmo.
+   O engenheiro sabia que o sabor do sorvete não poderia influenciar o problema,
+mas certamente ali havia algum fator que estaria associado ao problema. E este fator tinha a ver com o sabor. Então ele descobriu que o sorvete de baunilha ficava na entrada da sorveteria, enquanto que os demais ficavam nos fundos. Ao entrar e comprar o sorvete de baunilha, o dono do carro demorava menos que se pegasse outro sabor. Havia uma peça no carro que precisava resfriar para o carro poder ligar. Menos tempo na sorveteria, menos tempo para a peça resfriar e o carro não ligava. Desta forma, o engenheiro descobriu a causa para o problema."
+
+Examinando o carro, o engenheiro fez nova descoberta: o tempo de compra era muito reduzido no caso da baunilha em comparação com o tempo dos outros sabores, o motor não chegava a esfriar. Com isso os vapores de combustível não se dissipavam, impedindo que a nova partida fosse instantânea.
+
+A partir desse episódio, a GM mudou o sistema de alimentação de combustível e introduziu a alteração em todos os modelos a partir da linha 99. Mais do que isso, o cliente ganhou um carro novo, além da reforma do que não pegava com sorvete de baunilha.
+
+A GM distribuiu também um memorando interno, exigindo que seus funcionários levem a sério até as reclamações mais estapafúrdias, “porque pode ser que uma grande inovação esteja por trás de um sorvete de baunilha”, diz a carta da GM. Talvez os pequenos detalhes nos façam rever conceitos e repensar sobre fatos considerados “sem importância”.
+
+ como o tempo de compra era muito mais reduzido no caso da baunilha em comparação com o tempo dos outros sabores, o motor não chegava a esfriar.
+
+
+Com certeza esse consumidor americano comprará um outro Pontiac, porque qualidade não está dentro da empresa, está também no atendimento que despendemos aos nossos clientes
+
+
+
+1000 Kilobytes = 1 Megabyte
+1000 Megabytes = 1 Gigabyte
+1000 Gigabytes = 1 Terabyte 
+1000 Terabytes = 1 Petabyte  [where most SME corporations are?]
+1000 Petabytes = 1 Exabyte  [where most large corporations are?]
+1000 Exabytes = 1 Zettabyte [where leaders like Facebook and Google are]
+1000 Zettabytes = 1 Yottabyte
+1000 Yottabytes = 1 Brontobyte
+1000 Brontobytes = 1 Geopbyte
+(https://practicalanalytics.co/2011/11/06/explaining-hadoop-to-management-whats-the-big-data-deal/)
+
+https://www.linkedin.com/pulse/real-comparison-nosql-databases-hbase-cassandra-mongodb-sahu
+
+
+
+
+Cloud Computing é o motor do Big Data
+Para processar grandes volumes de dados em tempo real, empresas deverão usar a infraestrutura de Cloud Computing para colocar projetos de Big Data em ação.
+
+As empresas estão sendo instigadas a investir em tecnologias de Big Data para saber como achar ouro em uma mina de dados, que cresce a cada segundo. É um fenômeno puxado pelas redes sociais, mobilidade e mais recentemente pelas aplicações de Internet das Coisas (IoT).
+
+O estudo Visual Networking Index (VNI), realizado pela Cisco, prevê que em 2020 o volume de dados gerados pela Internet em todo o mundo chegará 2,3 zettabytes, crescimento de 264% comparado aos 870 exabytes registrados em 2015.
+
+A infraestrutura em Cloud Computing, seja em Nuvem Pública, Privada ou Híbrida, pode viabilizar os projetos de Big Data, superando os obstáculos da montagem do ambiente tradicional, trazendo diversos benefícios. Alguns ganhos são escalabilidade, que possibilita crescimento da capacidade de processamento de forma instantânea, e baixo investimento inicial.
+
+---
+
+Cloud Computing
+
+De acordo com o NIST (National Institute of Standards and Technology), Cloud Computing é o modelo que disponibiliza um conjunto de recursos computacionais de maneira conveniente, com acesso sob demanda à rede e que pode ser rapidamente provisionado e liberado com pouco esforço de gerenciamento ou interação do provedor de serviços. 
+
+Com uma abordagem bastante simples, podemos entender Cloud como sendo a oferta da “computação como serviço”. Sim, um serviço como são os serviços de eletricidade ou telefonia. Da mesma forma que não é necessário ter uma usina de produção de energia em casa para ter acesso à eletricidade, não deveria ser necessário ter um computador para poder processar e armazenar dados. Esta é a base do conceito de Cloud Computing. E este conceito foi imaginado há muito tempo, na década de 1960.
+
+Matéria completa:
+https://canaltech.com.br/coluna/cloud-computing/Big-Data-e-Cloud-Computing/
+O conteúdo do Canaltech é protegido sob a licença Creative Commons (CC BY-NC-ND). Você pode reproduzi-lo, desde que insira créditos COM O LINK para o conteúdo original e não faça uso comercial de nossa produção.
+
+
+Fortunately, scalability and
+simplicity are not mutually exclusive—you just need to take a different approach. Big
+Data systems use many machines working in parallel to store and process data
+
+
+HDFS is optimally designed for batch processing, which provides a high throughput of data access,
+rather than a low latency of data access. Applications that run on HDFS have large datasets. A typi-
+cal fi le in HDFS can be hundreds of gigabytes or more in size, and so HDFS of course supports large
+fi les.
+==> VER 
+https://stackoverflow.com/questions/16718095/high-throughput-vs-low-latency-in-hdfs
+https://stackoverflow.com/questions/30049989/why-hdfs-not-preferred-with-applications-that-require-low-latency?rq=1
+
+"HDFS is optimized to access batches of data set quicker (high throughput), rather then particular records in that data set (low latency)"
+
+"Low latency data access:  I hit the enter key (or submit button) and I
+expect results within seconds at most.  My database query time should be
+sub-second.
+High throughput of data:  I want to scan millions of rows of data and count
+or sum some subset.  I expect this will take a few minutes (or much longer
+depending on complexity) to complete.  Think of more batch style jobs."
+"Fast in terms of Hadoop means processing TBs of data in a relatively very small time(maybe a few hours) and not processing a few MBs in milliseconds."
+
+Hadoop is a single functional distributed system that works directly with clustered machines in
+order to read the dataset in parallel and provide a much higher throughput. Consider Hadoop as a
+power house single CPU running across clustered and low cost machines.
+
+MapReduce will allow
+its users to process unlimited amounts of data of any type that’s stored in HDFS by dividing work-
+loads into multiple tasks across servers that are run in parallel.
+
+The YARN Infrastructure (Yet Another Resource Negotiator) is the framework responsible for pro-
+viding the computational resources (memory, CPUs, etc.) needed for executing applications.
+
+The YARN framework in Hadoop 2 allows
+workloads to share cluster resources dynamically between a variety of processing frameworks,
+including MapReduce, Impala, and Spark.
+
+HDFS provides several types of interfaces for fi lesystem users. The most basic one is the command-
+line tool included in Hadoop HDFS. Command-line tools can be separated into two categories: the
+fi lesystem shell interface and the admin tool for HDFS.
+
+HDFS can store any type of data, including text data in binary format, including even image
+or audio fi les. HDFS was initially and currently developed to be used by MapReduce. So, the
+fi le format that fi ts to the MapReduce or Hive workload is usually used.
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,225 @@
+http://supsd.cta.serpro/videos/arquivos/serpro-eclipse-luna-amd64.deb
+
+
+*************************************************************************************************************************
+** Configuração "Getting Started" -> Creating a Batch Service (https://spring.io/guides/gs/batch-processing/#initial): **
+*************************************************************************************************************************
+
+Obs.: Utilizando o banco padrão "No database type set, using meta data indicating: HSQL"
+
+$ cd estudo.git/SpringBatch/workspace/gs-batch-processing-master/initial
+
+$ mvn eclipse:eclipse
+
+- No Eclipse: "Import Existing Maven Project"
+
+- Mudar para Java 1.8
+
+- Create a business class (Person.java)
+
+- Create an intermediate processor (PersonItemProcessor.java)
+
+- Put together a batch job (BatchConfiguration.java)
+
+- Criar JobCompletionNotificationListener.java
+
+- Make the application executable (Application.java)
+
+- Build an executable JAR:
+
+1) build the JAR file with:
+	$ ./mvnw clean package
+
+2) Then you can run the JAR file: 
+	$ java -jar target/gs-batch-processing-0.1.0.jar
+
+Obs.: 
+
+i) build a single executable JAR file that contains all the necessary dependencies, classes, and resources, and run that.
+ii) If you are using Maven, you can run the application using $ ./mvnw spring-boot:run
+iii) Execultando testes:
+
+$ cd  /estudo.git/SpringBatch/workspace/gs-batch-processing-master/test
+$ chmod +x run.sh
+$ ./run.sh
+
+(Criando tag GIT no projeto "ANTES DA MUDANÇA DE DATASOURCE"!!!)
+
+*****************************************************************************************************
+** Configuração para acesso ao PostgreSQL (Exemplo 01): 					   **
+** http://javasampleapproach.com/spring-framework/spring-boot/start-spring-batch-using-spring-boot **
+*****************************************************************************************************
+
+$ cd estudo.git/SpringBatch/workspace/SpringBatch
+
+$ mvn eclipse:eclipse
+
+- No Eclipse: "Import Existing Maven Project"
+
+Obs.: Para criar um projeto do zero:
+
+"Create Spring Boot project: Open Spring Tool Suite, on main menu, choose File->New->Spring Starter Project"
+
+- Mudar para Java 1.8
+
+- Config datasource for Batch Job repository:
+
+Em "/src/main/resources/application.properties", add datasource info:
+	
+spring.datasource.url=jdbc:postgresql://127.0.0.1/testdb
+spring.datasource.username=postgres
+spring.datasource.password=post
+spring.batch.job.enabled=false
+
+Obs.: Para utilizar outro banco "HSQL", comentar essas linhas 
+acima em "application.properties" e colocar no pom.xml:
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>postgresql</groupId> -->
+<!-- 			<artifactId>postgresql</artifactId> -->
+<!-- 			<version>9.4.1208-jdbc42-atlassian-hosted</version> -->
+<!-- 		</dependency> -->
+	<dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+        </dependency>
+
+
+Obs.: Para a dependência do driver do postgresql:
+
+O mvn install instala o seu jar no seu repositório local, para que ele possa ser encontrado quando adicionado ao seu projeto. Por exemplo:
+
+mvn install:install-file
+-Dfile=c:\meujar\meujar.jar
+-DgroupId=org.meujar
+-DartifactId=meujar
+-Dversion=1.0.0
+-Dpackaging=jar
+-DgeneratePom=true
+
+Depois é só adicionar sua dependência no seu pom.xml, conforme os parametros que você usou no mvn install:
+
+<dependency>
+    <groupId>org.meujar</groupId>
+    <artifactId>meujar</artifactId>
+    <version>1.0.0</version>
+</dependency>
+
+$ ~/mvn install:install-file -Dfile=/home/02963357460/estudo.git/SpringBatch/workspace/SpringBatch/lib/postgresql-9.4.1208-jdbc42-atlassian-hosted.jar -DgroupId=postgresql -DartifactId=postgresql -Dversion=9.4.1208-jdbc42-atlassian-hosted -Dpackaging=jar -DgeneratePom=true
+
+$ 
+
+– Maven build: 
+
+$ rm -rf target/
+$ ~/mvn clean install -Dmaven.test.skip=true
+
+- Execultar a aplicação:
+
+$ java -jar target/springbatch-0.0.1.jar
+
+- Make a request:
+
+No navegador "http://localhost:8080/launchjob" 
+
+==============
+=== EXTRAS ===
+==============
+
+* Fonte (https://domineospring.wordpress.com/2015/06/26/comecando-com-a-magia-do-spring-boot/):
+
+A única coisa que você precisa entregar a ele é o DataSource com os  dados de acesso ao banco. 
+Podemos criar um método com essa configuração na própria classe que contém nosso main. 
+	
+@SpringBootApplication
+    public class CasadocodigoSpringbootApplication {
+        @Bean
+        public DataSource dataSource(Environment environment) {
+            DriverManagerDataSource dataSource = new DriverManagerDataSource();
+            dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+            dataSource.setUrl("jdbc:mysql://localhost:3306/casadocodigo");
+            dataSource.setUsername("root");
+            dataSource.setPassword("");
+            return dataSource;
+        }
+ 
+        public static void main(String[] args) {
+            SpringApplication.run(CasadocodigoSpringbootApplication.class, args);
+        }
+    }
+
+--
+
+Você pode criar um arquivo chamado application.properties na raiz do seu classpath, geralmente em src/main/resources. 
+Lá você pode colocar configurações específicas das tecnologias utilizadas no projeto, abaixo segue o meu exemplo.
+	
+#hibernate
+spring.jpa.hibernate.ddl-auto=update
+
+* Fontes 
+(https://cezbatistao.wordpress.com/2016/04/29/comecando-com-o-spring-boot-parte-1/)
+(https://cezbatistao.wordpress.com/2016/05/05/comecando-com-o-spring-boot-parte-2/)
+(https://cezbatistao.wordpress.com/2016/05/05/post-rapido-configurando-ambiente-de-desenvolvimento-num-piscar-de-olhos/)
+:
+
+O módulo Spring DAO provê uma camada de abstração para JDBC, eliminando grande parte da codificação 
+necessária para interagir com um banco de dados. 
+
+$ cd ~/$WORKSPACE_HOME/springbootexample
+$ mvn spring-boot:run
+
+Existe também o site Spring Boot Initializr aonde é possível gerar toda a estrutura de um projeto Spring Boot, basta definir o gerenciador de projetos Maven ou Gradle, a versão do parent do Spring Boot, os nomes do Group e Artifact e as dependências que irá utilizar, nesse caso selecione apenas o Web e pronto, basta clicar no botão Generate Project e pronto!
+
+A classe DatabaseApplication.java, aonde toda a mágica do Spring Boot acontece, pois é nessa classe que deixaremos as configurações da nossa aplicação.
+
+Devemos incluir um arquivo "config.yml" de configuração do Spring Boot que conterá todas as configurações do JPA/Hibernate e conexão com o Banco de Dados:
+
+degub: true
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+  datasource:
+    url: jdbc:h2:mem:exemploparte2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+
+No Spring Boot podemos definir 2 tipos de arquivo de configuração um arquivo properties (application.properties) ou um arquivo YAML (application.yml), optei por utilizar o application.yml e configurei todas as propriedades necessárias do datasource para a nossa aplicação conectar no H2:
+
+url: jdbc:h2:mem:exemploparte2;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+username: sa
+password:
+driverClassName: org.h2.Driver
+
+Apenas foi preciso definir algumas informações no arquivo application.yml, não foi necessário configurar persistence.xml, EntityManagerFactory, EntityManager, PlatformTransactionManager nem nada, tudo isso já foi feito pelo próprio Spring Boot através das anotações na classe DatabaseApplication.java! 
+
+Cade os códigos JDBC para conectar no banco, cada o PreparedStatement e os ResultSet!? Então pessoal graças ao Spring Data não precisamos nada disso.
+
+***
+VER:
+
+https://pt.stackoverflow.com/questions/180368/como-integrar-spring-batchspring-bootquartz
+
+http://projects.spring.io/spring-roo/
+https://spring.io/guides/gs/accessing-data-mongodb/
+https://spring.io/guides/gs/accessing-data-jpa/
+https://spring.io/guides/gs/maven/
+https://spring.io/guides/gs/accessing-data-mysql/
+
+
+*** Projeto exemplo (Spring batch com PostgreSQL):
+
+http://javasampleapproach.com/spring-framework/spring-boot/how-to-import-csv-data-to-postgresql-database-using-spring-batch-job
+http://javasampleapproach.com/spring-framework/spring-boot/start-spring-batch-using-spring-boot
+
+http://javasampleapproach.com/spring-framework/spring-boot/how-to-use-jdbc-template-with-spring-boot-for-postgres-database
+http://javasampleapproach.com/spring-framework/create-paging-sorting-result-spring-jpa-postgresql-spring-boot
+

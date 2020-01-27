@@ -1,0 +1,12 @@
+* Node.js (real time):
+
+parei na páguina: 
+
+19 (32 de 144)
+"2.5 Desafio: Implementar um roteador de url"
+
+--------------------------------------------------------
+* Javascript Frameworks for Modern Web Dev:
+
+parei na página 16 (40 de 502)
+"Development Dependencies"

@@ -1,0 +1,449 @@
+https://hackr.io/tutorials/learn-python
+https://docs.python-guide.org/
+https://www.kdnuggets.com/2018/08/programming-best-practices-data-science.html
+-------------
+* Cloud para ML/AI (com python):
+
+https://www.paperspace.com/
+https://www.paperspace.com/pricing
+
+"The first cloud built for the future. Powering next-generation applications and cloud ML/AI pipelines."
+
+-------------
+
+"https://docs.continuum.io/anaconda/install/linux/"
+$ sudo apt-get install spyder3
+
+$ pip install --upgrade pip
+
+=============================================
+== virtualenv
+=============================================
+
+- https://virtualenv.pypa.io/en/latest/
+
+- https://github.com/pypa/virtualenv/
+- https://codeload.github.com/pypa/virtualenv/legacy.tar.gz/16.1.0
+
+"virtualenv is a tool to create isolated Python environments."
+
+1) Instalação:
+
+$ sudo apt-get install virtualenv
+$ virtualenv --python=python3.6 ds
+//$ virtualenv -p python3.6 diretorioTrabalho
+$ cd ds
+$ source bin/active
+
+-
+$ pip install jupyter
+$ jupyter notebook
+
+- ou bem Melhor:
+//https://github.com/jupyterlab/jupyterlab
+//https://jupyterlab.readthedocs.io/en/stable/
+//https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html
+$ pip install pandas numpy
+$ python3 -m pip install jupyterlab
+"ou": $ pip install jupyterlab
+$ jupyter lab
+
+
+---Tentando colocar pluing/extensão para abrir paginas web:
+
+Obs.: https://github.com/canavandl/jupyterlab_sandbox
+"open site page in jupyter lab":
+
+$ sudo apt-get install nodejs npm
+$ git clone https://github.com/canavandl/jupyterlab_sandbox
+//$ pip install -e git+https://github.com/ekalinin/nodeenv.git#egg=nodeenv
+//pip install nodejs
+$ jupyter labextension install jupyterlab_sandbox
+$ 
+
+-- obs.: testes:
+
+//==> https://github.com/spyder-ide/spyder
+//$ sudo apt-get install spyder3
+//==> https://docs.spyder-ide.org/installation.html
+//==> "Run without installing":
+$ git clone https://github.com/spyder-ide/spyder.git
+$ cd spyder
+$ pip install -r requirements/requirements.txt
+
+--requirementes (https://docs.spyder-ide.org/installation.html#installing-with-pip-experts-only):
+PyQt5
+Qtconsole
+Rope
+Pyflakes
+Sphinx
+Pygments
+Pylint
+Pycodestyle
+Psutil
+Nbconvert
+Qtawesome
+Pickleshare
+PyZMQ
+QtPy
+Chardet
+Numpydoc
+Cloudpickle
+Matplotlib
+Pandas
+Numpy
+Sympy
+Scipy
+Cython
+
+$ python bootstrap.py
+
+---
+
+//https://stackoverflow.com/questions/30170468/how-to-run-spyder-in-virtual-environment
+//https://conda.io/docs/user-guide/tasks/manage-environments.html
+//$ pip install conda
+
+
+"ou":
+
+$ curl --location --output virtualenv-16.1.0.tar.gz https://github.com/pypa/virtualenv/tarball/16.1.0
+$ tar xvfz virtualenv-16.1.0.tar.gz
+$ cd pypa-virtualenv-4ad2742
+//$ pip3 install virtualenv
+$ python src/virtualenv.py myVE
+//$ python src/virtualenv.py --python=python3.6 ds
+$ cd myVE
+//$ virtualenv -p python3.6 python3.6
+$ source bin/active
+$ pip install s3cmd
+$ pip install spyder
+
+---Obs.: Experimentos
+
+// https://gist.github.com/simecek/019d87c55fec3839d95bbf8489dde61d#file-rmagic_example-ipynb
+$ pip install rpy2 pandas numpy pytz tzlocal warnings
+
+- rmagic_example-ipynb:
+
+In [1]: %load_ext rpy2.ipython
+
+In [2]: import warnings
+	warnings.filterwarnings('ignore')
+
+In [3]: %R require(ggplot2); require(tidyr)
+
+Out[3]:
+
+array([1], dtype=int32)
+
+In [4]: import numpy as np
+	import pandas as pd 
+	np.random.seed(42)
+	# Make a pandas DataFrame
+	df = pd.DataFrame(np.random.normal(0,1,size=(100, 3)), columns=list('ABC'))
+	df['C'] = df['C'] + 2
+
+In [5]: %%R -i df
+	df %>% 
+	  gather("Category", "X") %>%
+	  ggplot(aes(x = Category, y = X, fill = Category)) +
+	    geom_violin() +
+	    stat_summary(fun.y=mean, color='black', geom='point', size = 3) +
+	    labs(title = "Violin plot",
+	         subtitle = "Means indicated as black dots",
+	         captions = "Numbers generated in Numpy") +
+	    theme_bw()
+
+
+
+
+=========================
+== docker
+=========================
+
+https://github.com/bitnami/bitnami-docker-python
+
+
+$ docker run -it --name python bitnami/python
+
+- Running your Python script:
+
+$ docker run -it --name python -v /path/to/app:/app bitnami/python \
+python script.py
+
+- Running a Python app with package dependencies:
+
+$ docker run --rm -v /path/to/app:/app bitnami/python pip install -r requirements.txt
+$ docker run -it --name python -v /path/to/app:/app bitnami/python python script.py
+
+-------------
+-------------
+--- pipenv = (virtualenv + pip)
+-------------
+-------------
+
+https://pipenv.readthedocs.io/en/latest/
+
+$ pip install pipenv
+
+$ mkdir testeDir
+
+$ cd testeDir/
+
+//To initialize a Python 3 virtual environment:
+$ pipenv --three
+
+$ ls
+
+$ pipenv install django
+
+$ pipenv install django-extensions --dev
+
+$ less Pipfile
+
+$ pipenv graph
+$ pip freeze
+
+//Ativa o "virtualenv" com:
+$ pipenv shell
+
+$ pipenv --where
+$ pipenv --py
+
+(testeDir) $ python --version
+(testeDir) $ pipenv --venv
+(testeDir) $ pip show django
+
+(testeDir) $ pipenv check
+
+//(testeDir) $ pipenv install
+
+Obs.: -> Valida/verificas os sequisitos nas seguintes linhas em Pipfile:
+	[requires]
+	python_version = '3.5'
+	platform_system = 'Linux'
+
+(testeDir) $ pipenv update
+
+//Ou caso não queira ativa o "virtualenv":
+$ pipenv run pip show django
+
+//Exemplo back-end em django:
+(testeDir) $ django-admin startproject myproject .
+(testeDir) $ python manage.py migrate
+(testeDir) $ python manage.py runserver
+
+--> http://127.0.0.1:8000/
+
+
+=============================================
+== docker miniconda
+=============================================
+
+https://hub.docker.com/r/continuumio/miniconda3
+
+$ docker pull continuumio/miniconda3
+
+$ docker run -i -t continuumio/miniconda3 /bin/bash
+
+$ docker run -i -t -p 8888:8888 continuumio/miniconda3 /bin/bash -c "/opt/conda/bin/conda install jupyter -y --quiet && mkdir /opt/notebooks && /opt/conda/bin/jupyter notebook --notebook-dir=/opt/notebooks --ip='*' --port=8888 --no-browser"
+
+---
+
+$ conda info
+$ conda env list
+$ conda list
+$ conda search -f python
+$ conda search -f seaborn
+
+
+=============================================
+== spyder in virtualenv
+=============================================
+
+$ sudo apt-get install spyder3
+
+//
+
+$ sudo apt-get install python3-dev
+
+$ virtualenv --python=python3.6 spyder
+
+$ cd spyder/
+
+$ source bin/activate
+
+$ pip install spyder-kernels
+//pip install spyder-kernels==1.*
+
+$ git clone https://github.com/spyder-ide/spyder.git
+
+$ cd spyder/
+
+$ pip install -r spyder.tx
+
+PyQt5 >=5.5
+Qtconsole >=4.2.0
+Rope >=0.9.4
+Jedi >=0.9.0
+Pyflakes
+Sphinx
+Pygments >=2.0
+Pylint
+Pycodestyle
+Psutil
+Nbconvert
+Qtawesome >=0.4.1
+Pickleshare
+PyZMQ
+QtPy >=1.2.0
+Chardet >=2.0.0
+Numpydoc
+Cloudpickle
+Matplotlib >=1.0
+Pandas >=0.13.1
+Numpy
+Sympy >=0.7.3
+Scipy
+Cython >=0.21
+
+$ python bootstrap.py
+
+==================================
+=== vscode com jupyter notebook
+==================================
+-> https://www.linkedin.com/pulse/jupyter-notebook-visual-studio-code-bikash-sundaray/?utm_campaign=News&utm_medium=Community&utm_source=DataCamp.com
+-> https://code.visualstudio.com/docs/python/jupyter-support
+-> https://marketplace.visualstudio.com/items?itemName=donjayamanne.jupyter
+
+$ ~/vscode
+
+$ pipenv --three
+
+$ pipenv install networkx matplotlib ipython jupyter
+
+$ less Pipfile
+
+//Ativa o "virtualenv" com:
+$ pipenv shell
+
+Obs.: No vscode instalar os seguintes plugins:
+
+Python Extension Pack (Don Jayamanne)
+Jypyter (Don Jayamanne)
+VS Code Jupyter Notebook Previewer (jithurjacob)
+Jupyter Notebook Converter (Yigit Ozgumus)
+Jupyter-QTConsole (Andreas Klausen)
+
+==> Remember Run Cell will appear where you have written "#%%". So you can repeat "#%%" where ever you want.
+
+#%%
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import numpy as np
+
+x = np.linspace(0, 20, 100)
+plt.plot(x, np.sin(x))
+plt.show() 
+
+
+==================================
+=== anaconda (ambiente virtual)
+==================================
+
+#Para verificar se o anaconda já está instalado
+$ which anaconda-navigator
+
+$ cd ~/anaconda3/envs
+
+$ conda env create -f environment.yml
+
+obs.: Exemplos de conteudo do arquivo "environment.yml":
+
+	name: nams  # Network Analysis Made Simple
+	channels:
+	- defaults
+	- conda-forge
+	- ericmjl
+	dependencies:
+	- python=3.6
+	- matplotlib
+	- networkx
+	- scipy
+	- numpy
+	- nxviz
+	- hiveplot
+	- jupyter
+	- jupyterlab
+	- ipykernel
+	- pandas
+	- rise
+	- python-louvain
+	- tqdm
+	- pip:
+	    - environment_kernels
+
+	"ou"
+
+	name: datascience
+	dependencies:
+	  - numpy
+	  - scipy
+	  - pandas
+	  - scikit-learn
+	  - scipy
+	  - jupyter
+	  - matplotlib
+	  - statsmodels
+	  - python=3.6
+	  - pip:
+	    - tensorflow
+	    - tensorflow-tensorboard
+
+# $ wget https://raw.githubusercontent.com/ericmjl/conda-envs/master/nams.yml -O environment.yml
+# $ conda env update -f environment.yml
+
+$ conda activate nams
+#$ source activate nams
+"ou":
+$ anaconda-navigator
+"ou":
+$ code .
+
+obs.: Instalando o kernel do R para o jupyter notebook:
+
+	$ conda install -c r r-essentials
+	ou:		
+	$ pip install rpy2
+
+$ conda install -c conda-forge autopep8
+
+obs.: Ou Usar essa configuração "conda config --add channels conda-forge" para:
+	$ conda install autopep8
+	$ conda search autopep8 --channel conda-forge
+	$ pip show autopep8
+	$ autopep8 --help
+	$ autopep8 --in-place --aggressive --aggressive <filename>
+	$ autopep8 --in-place --verbose teste.py
+	$ pycodestyle --quiet --statistics teste.py
+
+https://conda-forge.org/feedstocks/
+https://github.com/conda-forge/autopep8-feedstock
+https://pypi.org/project/autopep8/
+
+$ conda deactivate
+
+
+
+
+
+
+
+
+
+
+
+
+
+

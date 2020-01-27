@@ -1,0 +1,46 @@
+//https://docs.docker.com/install/linux/docker-ce/centos/
+//https://docs.docker.com/install/linux/docker-ce/centos/#prerequisites
+
+$ curl -k https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-18.09.0-3.el7.x86_64.rpm --output docker-ce-18.09.0-3.el7.x86_64.rpm
+ 
+$ yum install docker-ce-18.09.0-3.el7.x86_64.rpm
+
+$ curl -k https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-cli-18.09.0-3.el7.x86_64.rpm --output docker-ce-cli-18.09.0-3.el7.x86_64.rpm
+
+$ yum install docker-ce-cli-18.09.0-3.el7.x86_64.rpm
+
+$ gpasswd -a $USER docker
+
+$ systemctl start docker
+
+$ docker run hello-world
+
+obs.:
+
+$ scp root@10.139.10.73:/root/docker_rpm/comando.txt .
+
+root@10.139.10.73's password: 
+comando.txt                    
+
+$ yum install epel-release
+
+$ yum install -y python-pip
+
+$ pip3.6 install docker-compose
+
+$ yum upgrade python*
+
+$ docker-compose version
+
+
+obs.: https://hub.docker.com/r/chenzj/dfimage
+
+$ alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage"
+
+$ docker images
+
+$ dfimage image_id
+
+"ou"
+
+# docker history --no-trunc kd8939skdkskk  | tac | tr -s ' ' | cut -d " " -f 5- | sed 's,^/bin/sh -c #(nop) ,,g' | sed 's,^/bin/sh -c,RUN,g' | sed 's, && ,\n  & ,g' | sed 's,\s*[0-9]*[\.]*[0-9]*[kMG]*B\s*$,,g' | head -n -1

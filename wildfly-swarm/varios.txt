@@ -1,0 +1,233 @@
+* Links:
+
+https://demoiselle.org/#
+https://github.com/demoiselle/framework
+https://github.com/demoiselle/example/tree/master/v3/cep
+https://hub.docker.com/r/demoiselleframework/cep/
+https://demoiselle.gitbooks.io/treinamento-v3/content/guia-rapido.html
+
+https://demoiselle.gitbooks.io/treinamento-v3/content/angular/webpack.html
+
+https://wildfly-swarm.gitbooks.io/wildfly-swarm-users-guide/content/
+http://wildfly-swarm.io/tutorial/sources/
+http://wildfly-swarm.io/generator/
+
+https://github.com/nubiofs/keycloak-pocs
+
+https://www.eventials.com/Globalcode/wildfly-swarm-criando-microservices-com-java-ee-7-stadium-quinta-george-gastaldi/
+https://pedrohosilva.wordpress.com/2017/12/30/rest-seguro-com-wildfly-swarm-e-keycloak/
+http://blog.caelum.com.br/micro-profile-javaee-com-wildfly-swarm/
+
+https://blog.dekstroza.io/microservices-and-jee-7/
+https://github.com/dekstroza/JEE7/tree/master/websockets-example
+
+https://github.com/oldpatricka/spring-boot-jdbi
+
+https://www.sitepoint.com/combining-spring-boot-and-jdbi/
+
+* Varios:
+
+http://editor.swagger.io/
+
+http://viniciusaires.me/config-wildfly-prodution/
+
+https://dzone.com/articles/running-wildfly-swarm-microservices-in-docker
+
+https://dzone.com/articles/develop-a-microservice-with-forge-wildfly-swarm-an-1
+http://forge.jboss.org/addon/org.jboss.forge.addon:wildfly-swarm
+
+https://dzone.com/articles/how-to-build-microservices-with-java-ee-and-jbossf
+
+==> https://github.com/thorntail/thorntail-examples/tree/master/docker/docker-jaxrs
+
+==> https://github.com/spotify/dockerfile-maven
+	old - https://github.com/spotify/docker-maven-plugin/
+
+https://github.com/yamad/jaxrs-docker-example
+
+http://jdbi.org/#_best_practices
+https://github.com/jdbi/jdbi
+https://github.com/opentable/otj-pg-embedded
+https://github.com/jdbi/jdbi/tree/master/testing/src/main/java/org/jdbi/v3/testing
+
+https://webpack.js.org/guides/getting-started/
+
+https://medium.com/@rafaelvicio/spring-boot-vs-wildfly-swarm-em-ambiente-java-enterprise-9f20fbb9211b
+
+https://github.com/wildfly-swarm-archive/wildfly-swarm-spring-boot
+
+http://ksoong.org/wildfly-swarm-spring-boot
+https://blog.akquinet.de/2017/01/12/the-lightweightness-of-microservices-comparing-spring-boot-wildly-swarm-and-haskell-snap/
+==> https://github.com/tnfink/microservice-lightweight-competion-
+
+https://github.com/daggerok/java-ee-examples
+
+* Comandos:
+
+$ java -jar -Xmx128m -Dswarm.bind.address=0.0.0.0 target/todo-swarm.jar
+
+$ mvn wildfly-swarm:run
+
+$ mvn docker:start -Pdocker
+
+$ docker run -p 8080:8080 example-docker-jaxrs
+
+-> curl localhost:8080/resource
+
+xxxxxxxxxxx
+Extras:
+xxxxxxxxxx
+
+* https://github.com/thorntail/thorntail-examples/tree/master/docker
+* https://github.com/thorntail/thorntail-examples/tree/master/docker/docker-jaxrs
+
+--> pom.xml:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2015 Red Hat, Inc. and/or its affiliates.
+  ~
+  ~ Licensed under the Apache License version 2.0, available at http://www.apache.org/licenses/LICENSE-2.0
+  -->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>examples-docker</artifactId>
+    <groupId>org.wildfly.swarm.examples</groupId>
+    <version>2018.6.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>example-docker-jaxrs</artifactId>
+
+  <name>WildFly Swarm Examples: Docker and JAX-RS</name>
+  <description>WildFly Swarm Examples: JAX-RS in Docker container</description>
+  <packaging>war</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>jaxrs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>cdi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.2</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.2</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.wildfly.swarm</groupId>
+        <artifactId>wildfly-swarm-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>package</id>
+          </execution>
+          <execution>
+            <id>start</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>stop</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>docker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>io.fabric8</groupId>
+            <artifactId>docker-maven-plugin</artifactId>
+            <configuration>
+              <images>
+                <image>
+                  <name>${project.build.finalName}</name>
+                  <run>
+                    <ports>
+                      <port>8080:8080</port>
+                    </ports>
+                  </run>
+                  <build>
+                    <from>java:openjdk-8-jdk</from>
+                    <ports>
+                      <port>8080</port>
+                    </ports>
+                    <assembly>
+                      <basedir>/</basedir>
+                      <inline>
+                        <files>
+                          <file>
+                            <source>${project.build.directory}/${project.artifactId}-swarm.jar</source>
+                            <outputDirectory>/opt</outputDirectory>
+                          </file>
+                        </files>
+                      </inline>
+                    </assembly>
+                    <entryPoint>
+                      <shell>java -jar /opt/${project.artifactId}-swarm.jar</shell>
+                    </entryPoint>
+                  </build>
+                </image>
+              </images>
+            </configuration>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>pre-integration-test</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>post-integration-test</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
+
+--> Dockerfile:
+
+FROM openjdk:jre-alpine
+
+ADD example-docker-jaxrs-dockerfile-swarm.jar /opt/wildfly-swarm.jar
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/opt/wildfly-swarm.jar"]

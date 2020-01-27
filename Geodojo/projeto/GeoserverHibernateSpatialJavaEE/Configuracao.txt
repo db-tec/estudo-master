@@ -1,0 +1,132 @@
+** Tutorial (configurações e execução):
+
+file:///home/clenubio/Desenvolvimento/Estudos/Geodojo/arqs_html/7-ol4jsf/ol4jsf.html#
+http://localhost:8080/geoserver/web/
+
+https://java.net/svn/ol4jsf~svn/maven/trunk/maven-jsf-plugin/pom.xml
+https://java.net/downloads/ol4jsf/documentation.pdf
+
+$ mvn archetype:generate
+
+.......
+17: remote -> br.gov.frameworkdemoiselle.archetypes:demoiselle-jsf-jpa (Archetype for web applications (JSF + JPA) using Demoiselle Framework)
+
+versão 2.5.1
+.......
+
+Define value for groupId: : org.home
+Define value for artifactId: : tutorial01
+Define value for version: 1.0-SNAPSHOT: :
+Define value for package: : tutorial
+Confirm properties configuration:
+groupId: org.home.tutorial01
+artifactId: tutorial01
+version: 1.0-SNAPSHOT
+package: war
+Y: : Y
+
+......
+
+$ mvn eclipse:eclipse
+
+>> import project (eclipse) 
+
+>> Configure "Convert to Maven Project"
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+Configuração Jboss EAP 6.4:
+
+http://docs.jboss.org/overlord/rtgov/user/1.0.0.Final/html/_installation.html
+https://access.redhat.com/documentation/en-US/JBoss_Enterprise_BRMS_Platform/5/html/BRMS_Administrator_Guide/Configuring_a_Datasource_for_JBoss_Enterprise_Application_Platform_6.html
+
+....
+
+(Postgres)
+
+    >> Create the $JBossAS/modules/org/postgresql/main folder (VER imagem "VirtualBox_Ubuntu-15.10_19_02_2016_11_20_04.png").
+    
+    Put the postgresql driver jar in the $JBossAS/modules/org/postgresql/main folder, e.g. postgresql-9.1-902.jdbc4.jar.
+    
+    Create a module.xml file, within the $JBossAS/modules/org/postgresql/main folder, with the contents: 
+
+<module xmlns="urn:jboss:module:1.1" name="org.postgresql">
+
+   <resources>
+
+     <resource-root path="postgresql-9.1-902.jdbc4.jar"/>
+
+   </resources>
+
+   <dependencies>
+
+     <module name="javax.api"/>
+
+     <module name="javax.transaction.api"/>
+
+   </dependencies>
+
+</module>
+
+    >> Edit the $JBossAS/standalone/configuration/standalone-full.xml file to include the PostgresSQL driver: 
+
+
+<subsystem xmlns="urn:jboss:domain:datasources:1.0">
+
+        <datasources>
+
+            .....
+
+            <drivers>
+
+                ...
+
+                <driver name="postgresql" module="org.postgresql">
+
+                    <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+
+                </driver>
+
+            </drivers>
+
+        </datasources>
+
+    </subsystem>
+
+
+
+....
+
+Ver (item "2.1.2.3. Database" --> "Postgres"):
+
+        <subsystem xmlns="urn:jboss:domain:datasources:1.2">
+            <datasources>
+                <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+                    <driver>h2</driver>
+                    <security>
+                        <user-name>sa</user-name>
+                        <password>sa</password>
+                    </security>
+                </datasource>
+                <datasource jndi-name="java:jboss/datasources/PostgreDS" pool-name="PostgreDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:postgresql://localhost:5432:postgres;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
+                    <driver>postgresql</driver>
+                    <security>
+                        <user-name>postgres</user-name>
+                        <password>post</password>
+                    </security>
+                </datasource>
+                <drivers>
+                    <driver name="h2" module="com.h2database.h2">
+                        <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
+                    </driver>
+                    <driver name="postgresql" module="org.postgresql">
+                        <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+                    </driver>
+                </drivers>
+            </datasources>
+        </subsystem>
+
+
+

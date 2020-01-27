@@ -1,0 +1,291 @@
+
+docker ps
+docker ps -a
+docker ps -as
+docker ps -aq
+docker info
+
+$ docker build -t sinter-valida-lote-rtd .
+
+obs.: Executar no diretorio que contem o arquivo "Dockerfile":
+
+	FROM openjdk
+
+	COPY build /opt/sinter
+
+	WORKDIR /opt/sinter
+
+	ENV CODIGO_DEMANDA=10465
+	ENV sinter_batch_job_dir=/opt/sinter/p_${CODIGO_DEMANDA}_sinter_rotinas
+	ENV PATH_JAVA_SIGNER=$sinter_batch_job_dir
+	ENV sinter_batch_arq_dir=/opt/sinter/p_${CODIGO_DEMANDA}_sinter_arquivos
+	ENV ENTRADA_LOTES_RTD=$sinter_batch_arq_dir/qware/centralRTD/inbox/lotes
+	ENV SAIDA_RECEBIMENTO_LOTES_RTD_VALIDADOS=$sinter_batch_arq_dir/qware/centralRTD/outbox/lotes/validados
+	ENV SAIDA_RECEBIMENTO_LOTES_RTD_REJEITADOS=$sinter_batch_arq_dir/qware/centralRTD/outbox/lotes/rejeitados
+	ENV SAIDA_RELATORIO_LOTES_EXTRATOS_RTD_PROCESSADOS=$SAIDA_RECEBIMENTO_LOTES_RTD_VALIDADOS/processados
+	ENV PERMANENTE_LOTES_RTD=$sinter_batch_arq_dir/STaaS/centralRTD/lotes
+	ENV PERMANENTE_LOTES_RTD_VALIDADOS=$PERMANENTE_LOTES_RTD/validados
+	ENV PERMANENTE_LOTES_RTD_REJEITADOS=$PERMANENTE_LOTES_RTD/rejeitados
+	ENV PERMANENTE_LOTES_EXTRATOS_RTD_PROCESSADOS=$PERMANENTE_LOTES_RTD_VALIDADOS/processados
+
+	RUN apt-get update && \
+	    apt-get install -y --no-install-recommends make unzip file bc less && \
+	    rm -rf /var/lib/apt/lists/*
+	
+
+	#CMD ["sh", "-c", "${sinter_batch_job_dir}/validar_loteRTD.sh 20170817000030003.zip"]
+	#CMD ["sh", "-c", "make"]
+
+	RUN make
+
+---
+#ADD bootstrap.sh ${sinter_batch_job_dir}
+#ADD script.sh /root/script.sh
+#RUN cp ./p_${CODIGO_DEMANDA}_sinter_rotinas/* $sinter_batch_job_dir
+
+$ docker run --rm -it sinter-valida-lote-rtd
+
+$ docker run --rm -it sinter-valida-lote-rtd /bin/sh
+
+$ docker run --rm -it sinter-valida-lote-rtd /bin/bash
+
+$ docker run --rm -it sinter-valida-lote-rtd sh -c "make test-all"
+
+$ docker run --rm -it -e PATH_JAVA_SIGNER=/opt/sinter/build/config sinter-valida-lote-rtd sh -c "make test-all"
+
+
+	obs.:
+	//#Criar container com base na image:
+	//# $ docker run -i -t image_name:tag_name /bin/bash
+
+
+
+	//#Rodar bash para container já ativo:
+	//# $ docker exec -it container_id /bin/bash
+
+
+	obs.: Após instalações para comitar as mudandas na imagem fazer:
+
+	1) $ docker ps
+
+	CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+	a0186140275b        bd9edc1a85ed        "/bin/bash"         19 minutes ago      Up 19 minutes                           kind_rosalind
+
+	2) $ docker commit a0186140275b r-base
+
+	exemplo:
+
+	$ docker run --rm -it rocker/rstudio /bin/bash
+	$ docker ps -a
+	$ docker commit f6fbb0b54169 rocker/rstudio
+
+
+** Copiando arquivos para container ativos:
+
+$ docker ps -a
+
+CONTAINER ID        IMAGE                 COMMAND                  CREATED             STATUS              PORTS                    NAMES
+437a96da7fda        05719eff3e76          "/bin/bash"              4 minutes ago       Up 4 minutes                                 frosty_kirch
+
+# docker container logs bec81724b049
+
+$ echo "Oi!" >> teste.txt
+
+$ docker cp teste.txt frosty_kirch:/teste.txt
+
+
+*** Cria nova imagem de um container ativo:
+
+$ docker commit frosty_kirch
+
+
+===> https://blog.scalyr.com/2018/09/create-docker-image/
+
+
+==> https://stackoverflow.com/questions/17665283/how-does-one-remove-an-image-in-docker
+
+$ docker images
+
+$ docker rmi -f 084faf6b4c2b
+
+-> you can use -f option to force delete the containers .
+
+$ docker container ls
+
+# docker container logs bec81724b049
+
+$ docker exec -it sinter-jboss /bin/sh
+
+obs.: run a command in a RUNNING CONTAINER using "docker exec [OPTIONS] CONTAINER COMMAND [ARG...]"
+
+---
+
+* TESTES (com mapeamento de volumes): 
+
+	$ docker run --rm -it sinter-valida-lote-rtd /bin/sh -c "while true; do echo ola mundo; sleep 1; done"
+
+	$ docker exec -it friendly_heyrovsky /bin/sh -c "make test-all"
+
+	$ docker run --rm -it -v $PWD/batch/src/test/resources/massa-dados/maquinas-sinter/qware/centralRTD/inbox/lotes:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/inbox/lotes sinter-valida-lote-rtd
+
+	$ docker run --rm -it -v $PWD/batch/src/test/resources/massa-dados/maquinas-sinter/qware/centralRTD/inbox/lotes:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/inbox/lotes -e PATH_JAVA_SIGNER=/opt/sinter/build/config sinter-valida-lote-rtd /opt/sinter/build/p_XPTO_sinter_rotinas/validar_loteRTD.sh 2017080600001003.zip
+
+	$ docker run --rm -it -v $PWD/batch/src/test/resources/massa-dados/maquinas-sinter/qware/centralRTD/inbox/lotes:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/inbox/lotes sinter-valida-lote-rtd sh -c "make build && /opt/sinter/build/p_XPTO_sinter_rotinas/validar_loteRTD.sh 2017080600001003.zip"
+
+---
+
+$ docker logs -tf 7e3a5288c91a
+# docker container logs -tf bec81724b049
+$ docker inspect 7e3a5288c91a
+
+root@ubuntu:~$ docker ps; # Lista os containers em execução
+
+root@ubuntu:~$ docker exec [container id] [comando]; #Executa comandos dentro do container
+
+root@ubuntu:~$ docker stop $(docker ps -aq); #Para a execução de todos dos containers
+
+rroot@ubuntu:~$ echo puts 'Tableless' > 'hello_ruby.rb' #Criando um arquivo .rb que imprime no console a frase "Tableless".
+
+root@ubuntu:~$ docker run -v "$(pwd)":/var/ruby -w /var/ruby google/ruby sh -c 'ruby hello_ruby.rb'
+
+	Executando esse docker run, caso você não tenha a imagem google/ruby baixada na sua máquina o próprio docker vai se encarregar disso, fazendo o 	download e iniciando o container.
+
+	A opção -v seguida do valor “$(pwd)”:/var/ruby mapeia a pasta atual (que você está executando o comando no terminal) onde criei o arquivo 		hello_ruby.rb para a pasta /var/ruby dentro container do docker.
+
+	A opção -w seta de qual path vai partir a execução do comando no nosso caso parte de /var/ruby, o google/ruby é o nome da imagem do ruby que vamos 		usar e o sh -c do unix para executar o seguinte comando ‘ruby hello_ruby.rb‘.
+
+$ docker run java:8 java -version
+
+$ docker run --rm -v "$PWD":/home/user/test -w /home/user/test java:8 java OlaDocker
+
+	A opção -v indica o volume que é carregado para o Container, e -w o diretório de trabalho. No exemplo as duas opções apontam para o mesmo diretório 
+	(/home/user/test), que contém o arquivo OlaDocker.class. Ajuste a instrução indicando o path e o nome adequado da sua classe Java.
+
+===============
+
+==> docker run hello-world
+
+==> docker run --name shell_script -it ubuntu bash
+
+obs.:
+
+$ docker run -i -t ubuntu /bin/bash
+
+	Veja o que mais foi feito acima:
+
+	    -i pede para que a entrada ou input permaneça aberta, para receber instruções
+	    -t pede ao contêiner para atribuir-lhe um terminal
+	    /bin/bash é a opção de programa terminal escolhida
+
+$ docker run --name primeiro_daemon -d ubuntu /bin/sh -c "while true; do echo ola mundo; sleep 1; done"
+
+	Aqui, usamos o comando ‘docker run’, em conjunto com o parâmetro ‘-d’ para enviar o contêiner pros bastidores ou background.
+
+$ docker logs primeiro_daemon
+
+$ docker exec -d primeiro_daemon touch /etc/new_config_file
+
+	Inicia outro processo dentro de um contêiner existente
+
+$ docker top primeiro_daemon
+
+** Como reiniciar automaticamente um contêiner:
+
+Se um contêiner parar ou for finalizado em consequência de um erro, é possível configurar o Docker para pô-lo pra rodar de novo automaticamente:
+
+$ docker run --restart=on-failure:3 --name segundo_daemon -d ubuntu /bin/sh -c "while true; do echo ola mundo; sleep 1; done"
+
+	Podemos sinalizar com ‘–restart’, quando queremos que haja um reinício e até quantas vezes tentar.
+A flag ‘–restart’ aceita valores, como ‘always’ (sempre) e ‘on-failure’ 
+
+==> docker exec -it shell_script ls
+
+---
+- Copiar arquivo (sem volume):
+
+#!/bin/bash
+docker cp /path/asdf.csv 2d55a8445409:/
+
+============================================================
+===> Execução de Conteiners docker, usando "Docker Compose":
+
+$ mkdir -p ~/sinter/qware/centralRTD/{inbox,outbox}/lotes
+$ mkdir -p ~/sinter/qware/centralRTD/outbox/lotes/rejeitados
+$ mkdir -p ~/sinter/qware/centralRTD/outbox/lotes/validados/processados
+
+$ mkdir -p ~/sinter/STaaS/centralRTD/lotes/rejeitados
+$ mkdir -p ~/sinter/STaaS/centralRTD/lotes/validados/processados
+
+$ mkdir -p ~/bin/docker
+
+$ curl -L --fail https://github.com/docker/compose/releases/download/1.14.0/run.sh -o ~/bin/docker-compose
+
+$ chmod 755 ~/bin/docker-compose
+
+obs.: "exemplo de conteudo do arquivo (docker-compose.yml) [após criação da imagem 'sinter-valida-rtd']"
+
+	version: '2'
+
+	services:
+	  sinter-valida-rtd:
+	    image: sinter-valida-lote-rtd
+	    build:
+	      context: .
+	      dockerfile: Dockerfile
+	    
+	    volumes:
+	      - ~/sinter/qware/centralRTD/inbox/lotes:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/inbox/lotes
+	      - ~/sinter/qware/centralRTD/outbox/lotes:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/outbox/lotes
+	      - ~/sinter/qware/centralRTD/outbox/lotes/rejeitados:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/outbox/lotes/rejeitados
+	      - ~/sinter/qware/centralRTD/outbox/lotes/validados:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/outbox/lotes/validados
+	      - ~/sinter/qware/centralRTD/outbox/lotes/validados/processados:/opt/sinter/appfiles/p_10465_sinter_arquivos/qware/centralRTD/outbox/lotes/validados/processados
+	      - ~/sinter/STaaS/centralRTD/lotes/rejeitados:/opt/sinter/appfiles/p_10465_sinter_arquivos/STaaS/centralRTD/lotes/rejeitados
+	      - ~/sinter/STaaS/centralRTD/lotes/validados:/opt/sinter/appfiles/p_10465_sinter_arquivos/STaaS/centralRTD/lotes/validados
+	      - ~/sinter/STaaS/centralRTD/lotes/validados/processados:/opt/sinter/appfiles/p_10465_sinter_arquivos/STaaS/centralRTD/lotes/validados/processados
+
+$ docker-compose up
+
+$ docker-compose stop
+$ docker-compose start
+$ docker-compose down
+$ docker-compose up -d
+$ docker-compose logs
+$ docker-compose logs -f
+
+$ docker-compose up
+
+$ docker-compose stop
+$ docker container prune
+$ docker-compose rm -fv postgres
+
+* How to remove <none> images after building:
+
+docker images -f dangling=true
+
+$ docker rmi $(docker images --filter "dangling=true" -q --no-trunc) 
+
+* Remove all exited containers:
+
+docker ps -a -f status=exited
+
+docker rm $(docker ps -a -f status=exited -q)
+
+* Removerndo todos os volumes (não utilizados):
+
+$ docker volume rm $(docker volume ls -f dangling=true -q)
+
+
+-------------
+
+obs.: https://hub.docker.com/r/chenzj/dfimage
+
+$ alias dfimage="docker run -v /var/run/docker.sock:/var/run/docker.sock --rm chenzj/dfimage"
+
+$ docker images
+
+$ dfimage image_id
+
+"ou"
+
+# docker history --no-trunc kd8939skdkskk  | tac | tr -s ' ' | cut -d " " -f 5- | sed 's,^/bin/sh -c #(nop) ,,g' | sed 's,^/bin/sh -c,RUN,g' | sed 's, && ,\n  & ,g' | sed 's,\s*[0-9]*[\.]*[0-9]*[kMG]*B\s*$,,g' | head -n -1
+

@@ -1,0 +1,247 @@
+Fonte: https://git-scm.com/book/pt-br/v2
+
+---
+
+Install GIT 
+
+http://tecadmin.net/install-git-on-ubuntu/#
+
+$ sudo add-apt-repository ppa:git-core/ppa
+
+$ sudo apt-get update
+
+$ sudo apt-get install git
+
+Obs.: para remover o ppa:
+$ sudo add-apt-repository --remove ppa:git-core/ppa
+
+Instalar o smartgit:
+http://www.syntevo.com/smartgit/download
+
+====================
+
+git --version
+
+$ git config --global http.sslverify false
+
+git config --list
+
+git config --global user.email "nubiofs@gmail.com"
+
+git config --global user.name "nubiofs"
+
+//Criar projetos
+
+mkdir projeto; cd projeto; git init
+
+//Criar arquivo no projeto
+
+touch projeto.txt; echo "oi" >> projeto.txt
+
+//Ver estado
+
+git status
+
+//Adicionar arquivo(s) no STAGE
+
+git add .
+
+//Criar comentario (e adicionar no HEAD)
+
+git commit -m "Versao Incial"
+
+//Adicionar no repositorio remoto (github)
+
+git remote add origin https://github.com/nubiofs/bookmark.git
+
+//Enviando alterações para o remoto (github)
+
+git commit -am ""
+
+git push origin master
+
+
+===> https://stackoverflow.com/questions/1057564/pretty-git-branch-graphs
+
+$ git log --graph --abbrev-commit --decorate --date=relative --all
+
+$ git log --all --decorate --oneline --graph
+
+$ git log --graph --date-order -C -M --pretty=format:"<%h> %ad [%an] %Cgreen%d%Creset %s" --all --date=short
+
+
+
+** COMANDO INICIAIS DO GIT ** http://tableless.com.br/alguns-comandos-git/
+
+** ver **
+
+http://www.akitaonrails.com/2010/08/17/screencast-comecando-com-git https://try.github.io/levels/1/challenges/1
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxx Trabalhando com submodulos no git
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+ 1986   | 27/09/17 - 11:56:27 | cd /tmp/
+ 1987   | 27/09/17 - 11:56:30 | git clone git@gitcorporativo.serpro:sinterinf-10465/sinter-project.git
+ 1988   | 27/09/17 - 11:56:35 | cd sinter-project/
+ 1989   | 27/09/17 - 11:56:38 | ls sinter-commons/
+ 1990   | 27/09/17 - 11:56:43 | cat .gitmodules 
+ 1991   | 27/09/17 - 11:56:51 | ls
+ 1992   | 27/09/17 - 11:56:54 | ls -lah
+ 1993   | 27/09/17 - 11:57:27 | git submodule add git@gitcorporativo.serpro:sinterinf-10465/sinter-commons-util.git sinter-commons/sinter-comm
+ons-util
+ 1994   | 27/09/17 - 11:57:34 | git submodule init
+ 1995   | 27/09/17 - 11:57:41 | git submodule update
+ 1996   | 27/09/17 - 11:58:01 | vi .gitmodules 
+ 1997   | 27/09/17 - 11:58:23 | git submodule init
+ 1998   | 27/09/17 - 11:58:25 | git submodule update
+ 1999   | 27/09/17 - 11:58:27 | ls
+ 2000   | 27/09/17 - 11:58:32 | less .gitmodules 
+ 2001   | 27/09/17 - 11:58:37 | git status
+ 2002   | 27/09/17 - 11:58:45 | git add .gitmodules 
+ 2003   | 27/09/17 - 11:58:50 | git status
+ 2004   | 27/09/17 - 11:59:00 | ls -lah sinter-commons/sinter-commons-util/
+ 2005   | 27/09/17 - 11:59:04 | ls -lah sinter-commons/sinter-commons-util/.git
+ 2006   | 27/09/17 - 11:59:06 | cat sinter-commons/sinter-commons-util/.git
+ 2007   | 27/09/17 - 11:59:32 | git commit -m 'Readicionando submodulo sinter-commons-util'
+ 2008   | 27/09/17 - 11:59:36 | git push
+
+
+Obs.:
+
+Fonte: 
+	
+	"https://gist.github.com/korya/9047870"
+	"http://will.willandorla.com/extract-to-git-submodule"
+
+ Convert subfolder into Git submodule
+Subfolder to git repo.md
+
+Source: http://willandorla.com/will/2011/01/convert-folder-into-git-submodule/
+1. Clone new repository
+
+$ git clone --no-hardlinks original-repo copied-repo
+
+2. Filter out the files you want to keep and remove the others
+
+$ cd copied-repo
+$ git filter-branch --subdirectory-filter sub/module/path HEAD -- --all
+$ git reset --hard
+$ git gc --aggressive
+$ git prune
+$ git remote rm origin
+
+3. Push the new repositories to the upstream server
+
+$ git remote add git@github.com:korya/submodule-repo.git
+
+4. Add the new repository as submodules to the original repository
+
+$ cd original-repo
+$ git rm sub/module/path
+$ git commit -m "Removing the folders that are now repositories"
+$ git submodule add git@github.com:korya/submodule-repo.git sub/module/path
+$ git submodule init
+$ git submoduel update
+$ git add .gitmodules sub/module/path
+$ git commit -m "Added in submodules for removed folders"
+
+===========================================
+== Conectando git com ssh:
+===========================================
+
+--> https://help.github.com/articles/connecting-to-github-with-ssh/
+
+Desabilitar verificação ssl do git
+
+$ git config --global http.sslverify false
+
+$ git config --list
+
+$ git config --global user.email "nubiofs@gmail.com"
+//git config --local user.email "nubiofs@gmail.com"
+//git config user.email "nubiofs@gmail.com"
+//cat ~/.gitconfig
+
+
+$ git config --global user.name "nubiofs"
+//git config --local user.name "nubiofs"
+//git config user.name "nubiofs"
+//colocar o cpf
+//cat .git/config
+
+obs.:
+
+	There are 3 levels of git config; project, global and system.
+
+    project: Project configs are only available for the current project and stored in .git/config in the project's directory.
+    global: Global configs are available for all projects for the current user and stored in ~/.gitconfig.
+    system: System configs are available for all the users/projects and stored in /etc/gitconfig.
+
+
+$ git config user.name
+
+$ ls -al ~/.ssh
+
+$ ssh-keygen -o -t rsa -b 4096 -C "your.email@example.com" 
+//$ ssh-keygen -o -t rsa -b 4096
+//ssh-keygen -p
+
+$ eval "$(ssh-agent -s)"
+
+$ ssh-add ~/.ssh/id_rsa
+
+$ sudo apt-get install xclip
+
+$ xclip -sel clip < ~/.ssh/id_rsa.pub
+
+Obs.: copiar em "https://git.xpto/profile/keys
+
+$ ssh -T git@github.com
+Welcome to GitLab, ...
+
+$ cd git
+
+$ git clone git@git.xpto:user/project.git
+
+- Ou para uma branch:
+$ git clone -b "me-ss1535764" git@git.s:s/project.git
+
+$ git status
+
+$ git diff
+
+$ git log
+$ git log --stat
+$ git show
+
+//git log --pretty=format:"%h - %an, %ar : %s"
+//git log --pretty=format:"%h %s" --graph
+
+//$ git add README.txt
+//$ git add .
+//$ git commit -m "Story 182: Fix benchmarks for speed"
+
+//$ git push origin master
+//git pull upstream master
+
+// git diff <sourcebranch> <targetbranch>
+
+# git : How to remove a big file wrongly committed
+# (I added a large file to a git repository (102Mb), commited and push and got an error due to size limit limitations on github):
+$ git filter-branch --tree-filter 'rm -rf path/to/your/file' HEAD
+	obs.: #git filter-branch -f --index-filter "git rm -rf --cached --ignore-unmatch FOLDERNAME" -- --all
+$ git push
+
+
+
+
+===> https://confluence.atlassian.com/bitbucketserver/basic-git-commands-776639767.html
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+
+https://stackoverflow.com/questions/28192623/create-patch-or-diff-file-from-git-repository-and-apply-it-to-another-different
+
+$ git format-patch -k --stdout HEAD^ >> file.path
+
+$ git am -3 -k file.patch

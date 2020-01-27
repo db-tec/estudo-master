@@ -1,0 +1,204 @@
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx       Via (prompt & eclipse)
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+$ mvn archetype:generate
+$ Choose a number: 705
+$ Choose a number: 6
+$ Define value for property 'groupId': org.home.geodojo.app
+$ Define value for property 'artifactId': : geodojo
+$ Define value for property 'version': 1.0-SNAPSHOT:
+$ Define value for property 'package': org.latinoware.geodojo.app:
+Confirm properties configuration:
+groupId: org.latinoware.geodojo.app
+artifactId: geodojo-app
+version: 1.0-SNAPSHOT
+package: org.latinoware.geodojo.app
+$ Y: Y
+
+$ cd geodojo/
+$ mvn eclipse:eclipse
+
+* No eclipse:
+>> File >> Import... >> General >> Existing Projects in Workspace >> Next
+
+Configure >> Convert to Maven Project
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx       Via (eclipse demoiselle)
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+$ mvn archetype:generate
+
+* No eclipse:
+>> New Maven Project
+
+'archetype': demoiselle-jsf-jpa 
+'versão': 2.5.1
+'groupId': org.home
+'artifactId': geodojo
+'Version': 0.0.1-SNAPSHOT
+
+$ cd geodojo/
+
+>> New server "JBoss EAP 6.4.0.GA (AS 7.5.0.Final-redhat-21)"
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx Configuração postgresql 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+** Instalação do PostgreSQL:
+
+$ apt-get install postgresql-9.4
+
+"instalando em /usr/share/postgresql/ e /usr/lib/postgresql/9.5/bin"
+
+senha do superuser (postgres): post
+
+>> Alterando a senha do usuario postgres (no postgres):
+
+$ sudo -u postgres psql
+
+# alter user postgres with encrypted password 'nova senha';
+
+>> Alterando a senha do usuario postgres (no Ubuntu):
+
+sudo passwd postgres
+
+su - postgres
+
+>> Alterando a senha do usuário admin do SGBD:
+
+(Em $ psql):
+
+ALTER ROLE postgres WITH PASSWORD 'postgres';
+
+>> Instalação do pgAdmin3: Via "Ubuntu Software Center"
+
+>> Instalação do postgis: Via "Ubuntu Software Center"
+
+Obs.: (Não tentei assim: ) $ sudo apt-get install postgresql-9.4 postgresql-9.4-postgis-2.0 pgadmin3
+-------------------------------------------------------------------------------
+
+** Outra forma de Instalação do PostgreSQL:
+
+http://www.postgresql.org/download/linux/ubuntu/
+
+>> Graphical installer
+
+Installers are available for 32 and 64-bit Linux distributions and include PostgreSQL, pgAdmin and the StackBuilder utility for installation of additional packages.
+
+Download the installer from EnterpriseDB for all supported versions: 
+
+http://www.enterprisedb.com/products-services-training/pgdownload
+
+postgresql-9.5.0-1-linux-x64.run
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxx
+Configuração QGIS (ubuntu):
+
+https://www.qgis.org/en/site/forusers/alldownloads.html
+
+$ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 3FF5FFCAD71472C4
+
+** Add the lines for one of the repositories to your /etc/apt/sources.list:
+
+deb     http://qgis.org/debian wily main
+
+deb-src http://qgis.org/debian wily main
+
+$ sudo apt-get update
+
+$ sudo apt-get install qgis python-qgis qgis-plugin-grass
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Importanto arquivos shapefiles para postGis (postgreSQL):
+
+http://www.postgresonline.com/journal/archives/145-PgAdmin-III-Plug-in-Registration-PostGIS-Shapefile-and-DBF-Loader.html
+
+$ shp2pgsql-gui &
+
+>> Importando (municipios_br.shp, rodovias.shp em "estudo/Geodojo/shapes-brasil.zip")
+
+Obs.: utilizar "latin1"
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+>> Criando a tabela de estados
+
+(Executar a instrução sql para criação da tabela de UF):
+
+CREATE TABLE uf
+(
+  id serial NOT NULL,
+  nome character varying(254),
+  the_geom geometry,
+  CONSTRAINT uf_pkey PRIMARY KEY (id),
+  CONSTRAINT enforce_dims_the_geom CHECK (st_ndims(the_geom) = 2),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(the_geom) = 'MULTIPOLYGON'::text OR the_geom IS NULL)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE uf
+  OWNER TO postgres;
+
+>> Executar a instrução sql para união e geração das geometrias dos estados (sobre tabela Geo "municipios_br" importanda anteriormente):
+
+INSERT INTO uf (nome,the_geom)
+SELECT nomeuf, st_multi(ST_UNION(geom)) from municipios_br group by nomeuf;
+
+>> Criando View rodovias_rn:
+
+CREATE VIEW rodovias_rn AS
+SELECT rodovia.id, rodovia.rodovia1, rodovia.geom
+FROM rodovias rodovia, uf
+WHERE uf.nome = 'RIO GRANDE DO NORTE' AND ST_INTERSECTS(rodovia.geom,uf.the_geom)
+
+>> Criando tabela rodovias_rn
+
+CREATE TABLE rodovias_rn
+(
+  id serial NOT NULL,
+  nome character varying(254),
+  geom geometry,
+  CONSTRAINT rod_rn_pkey PRIMARY KEY (id)
+  /*
+  ,
+  CONSTRAINT enforce_dims_the_geom CHECK (st_ndims(geom) = 2),
+  CONSTRAINT enforce_geotype_the_geom CHECK (geometrytype(geom) = 'multilinestring'::text OR geom IS NULL)
+  */
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE rodovias_rn
+  OWNER TO postgres;
+
+>> Executar a instrução sql para união e geração das geometrias das rodovias (sobre tabela Geo "uf" importanda anteriormente):
+
+INSERT INTO rodovias_rn (nome,geom)
+SELECT rodovia.rodovia1, rodovia.geom
+FROM rodovias rodovia, uf
+WHERE uf.nome = 'RIO GRANDE DO NORTE' AND ST_INTERSECTS(rodovia.geom,uf.the_geom)
+-- AND rodovia.rodovia1 <> NULL
+
+>> Inclusão de tabela para testes CRUD (geotwitt) primeiro no projeto "event-tutorial" (HibernateSpatial4Tutorial)
+
+CREATE TABLE geotwitt
+(
+  id serial NOT NULL,
+  autor character varying(254),
+  mensagem character varying(140),
+  CONSTRAINT geotwitt_pk PRIMARY KEY (id) 
+  )
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE geotwitt OWNER TO postgres;
+
+SELECT AddGeometryColumn('','geotwitt','geom','4326','POINT',2);
+
+
+

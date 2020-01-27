@@ -1,0 +1,102 @@
+
+==> Em "Installing Apache Tomcat" (do ebook "GeoServer Beginner's Guide")
+
+** Baixar:
+
+http://mirror.nbtelecom.com.br/apache/tomcat/tomcat-9/v9.0.0.M3/bin/apache-tomcat-9.0.0.M3.tar.gz
+
+- Em "apache-tomcat-9.0.0.M3/conf/server.xml", mudar a porta para "8888":
+
+<Connector port="8888" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+
+- Em "apache-tomcat-9.0.0.M3/conf/tomcat-users.xml" descomentar:
+
+<!--
+  <role rolename="tomcat"/>
+  <role rolename="role1"/>
+  <user username="tomcat" password="tomcat" roles="tomcat"/>
+  <user username="both" password="tomcat" roles="tomcat,role1"/>
+  <user username="role1" password="tomcat" roles="role1"/>
+-->
+
+- E também incluir/alterar (nas linhas acima de "tomcat-users.xml"):
+
+<!- Para (http://localhost:8888/manager/html) -->
+<role rolename="manager-gui"/>
+
+<user username="tomcat" password="tomcat" roles="tomcat,manager-gui"/>
+
+- Em "apache-tomcat-9.0.0.M3/bin", execultar:
+
+$ ./catalina.sh start
+
+** Observação:
+** Caso queira execultar o "tomcat" automaticamente no servidor Ubuntu (criar o seguinte script "/etc/init.d/tomcat"):
+
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: tomcat
+# Required-Start: $local_fs $remote_fs $network $syslog
+# Required-Stop: $local_fs $remote_fs $network $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Start/Stop Tomcat v7.0.27
+### END INIT INFO
+#
+# /etc/init.d/tomcat
+#
+export JAVA_HOME=/usr/lib/jvm/jre1.6.0_37
+export PATH=$JAVA_HOME/bin:$PATH
+export CATALINA_HOME=/opt/apache-tomcat-7.0.27
+export JAVA_OPTS="-Djava.awt.headless=true"
+case $1 in
+start)
+sh $CATALINA_HOME/bin/startup.sh
+;;
+stop)
+sh $CATALINA_HOME/bin/shutdown.sh
+;;
+restart)
+sh $CATALINA_HOME/bin/shutdown.sh
+sh $CATALINA_HOME/bin/startup.sh
+;;
+*)
+echo "Usage: /etc/init.d/tomcat {start|stop|restart}"
+exit 1
+;;
+esac
+exit 0
+#END
+
+~$ sudo chmod a+x /etc/init.d/tomcat
+
+~$ sudo service tomcat start
+
+~$ sudo update-rc.d tomcat defaults
+
+==> Em "deploying GeoServer on Tomcat" (do ebook "GeoServer Beginner's Guide")
+
+The war file for GeoServer is quite big, actually a little more than 64 MByte. In Tomcat Manager there is a default limit for deployable application that is at 50 MByte. 
+You will set it to a safe size for GeoServer. Open the $CATALINA_HOME/webapps/manager/WEB-INF/web.xml file and look for this section:
+
+<multipart-config>
+<!-- 50MB max -->
+<max-file-size>52428800</max-file-size>
+<max-request-size>52428800</max-request-size>
+<file-size-threshold>0</file-size-threshold>
+</multipart-config>
+
+Set the max-file-size to 72914560 value both in max-file-size and max-request-size parameters. Save the file and restart Tomcat.
+
+** Em "http://localhost:8888/manager/html"
+
+WAR file to deploy...
+Select WAR file to upload...
+<Deploy>
+
+=> Inicializar num browser:
+
+http://localhost:8888/geoserver/
+

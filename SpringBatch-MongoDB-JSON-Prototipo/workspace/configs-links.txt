@@ -1,0 +1,301 @@
+Observações:
+
+Versões mais novas (atuais em 12-07-2017):
+
+i) Opcao 1 "mais baixo nível":
+
+- http://projects.spring.io/spring-batch/
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.batch</groupId>
+        <artifactId>spring-batch-core</artifactId>
+        <version>3.0.7.RELEASE</version>
+    </dependency>
+</dependencies>
+
+com
+
+- https://mongodb.github.io/mongo-java-driver/
+
+<dependencies>
+    <dependency>
+        <groupId>org.mongodb</groupId>
+        <artifactId>mongodb-driver</artifactId>
+        <version>3.4.2</version>
+    </dependency>
+</dependencies>
+
+ii) Opcao 2 "talvez melhor escolha":
+
+- http://projects.spring.io/spring-batch/
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.batch</groupId>
+        <artifactId>spring-batch-core</artifactId>
+        <version>3.0.7.RELEASE</version>
+    </dependency>
+</dependencies>
+
+com
+
+- http://projects.spring.io/spring-data-mongodb/
+
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.data</groupId>
+        <artifactId>spring-data-mongodb</artifactId>
+        <version>1.10.4.RELEASE</version>
+    </dependency>
+</dependencies>
+
+xxxxxxxxxxxxxxx (NOT OK)
+
+* https://git.serpro/05601970475/infra-batch/tree/master/infra-batch/infra-batch-sample (NOT OK)
+
+--> infra-batch-master-10863e50f5b81e65582249e1526e3de76803dd76.zip
+
+"Não conecta com o MongoDB, devido a versão atual do infra-batch utilizar apenas JDBC para conexão com SGDBs Objeto-relacional (PostgreSQL, MySQL...)"
+
+==> Dessa forma, enquanto o infra-batch não for extendido para NoSQL --> Utilizar apenas:
+
+- Spring Batch
+- MongoDB Java driver
+
+Ou utilizar:
+
+- Spring Batch com Spring Data MongoDB "spring-data-mongodb sem necessidade de utilizar (MongoDB Java driver)"
+
+============== (OK)
+
+* https://github.com/ttrelle/spring-batch-mongodb-support (OK)
+
+--> spring-batch-mongodb-support-master.zip
+
+Obs.: 
+
+Original com 		
+	<spring.batch.version>2.1.9.RELEASE</spring.batch.version>
+	<mongo.driver.version>2.10.0</mongo.driver.version>
+	<spring.version>3.1.2.RELEASE</spring.version>
+	<junit.version>4.10</junit.version>
+
+$ cd spring-batch-mongodb-support-master
+
+$ ~/mvn clean install -Dmaven.test.skip=true --offline -Dmaven.javadoc.skip=true
+
+ou ~/mvn clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
+
+$ ~/mvn -DargLine="-Dhost=127.0.0.1 -Dport=27017" -Dtest=MongoDBItemWriterTest#should_write_one_document_transactional test
+
+$ ~/mvn -DargLine="-Dhost=127.0.0.1 -Dport=27017" -Dtest=MongoDBItemWriterTest#should_write_multiple_documents_transactional test
+
+$ ~/mvn -DargLine="-Dhost=127.0.0.1 -Dport=27017" -Dtest=MongoDBItemWriterJobTest#should_write_to_collection test
+
+============= Estou aqui...
+
+* https://github.com/spring-guides/gs-batch-processing
+
+- Objetivo:
+
+"Adaptando projeto inicial Spring Batch para (read json) e MongoDB Write (com Spring Data MongoDB)"!!!
+
+- Configuração "Getting Started" -> Creating a Batch Service (https://spring.io/guides/gs/batch-processing/#initial):
+
+- download "gs-batch-processing-master.zip"
+
+- descompatando apenas "/gs-batch-processing-master/initial/" para pasta "gs-batch-processing-master-initial-mongo"
+
+- substituir no pom.xml para:
+
+ <artifactId>gs-batch-processing-master-initial-mongo</artifactId>
+
+$ rm estudo.git/SpringBatch-MongoDB-JSON-Prototipo/workspace/gs-batch-processing-master-initial-mongo/gradle
+
+Observação Importante:
+
+Ver que há a pasta "/gs-batch-processing-master-initial-mongo/.mvn/wrapper/" para processamento via maven!!!
+
+$ cd estudo.git/SpringBatch-MongoDB-JSON-Prototipo/workspace/gs-batch-processing-master-initial-mongo/
+
+$ rm build.gradle
+
+$ rm gradlew*
+
+$ ~/mvn eclipse:eclipse
+
+$ mvn eclipse:eclipse
+
+- No Eclipse: "Import Existing Maven Project"
+
+- Mudar para Java 1.8
+
+- Create a business class (Person.java) "src/main/java/hello/Person.java"
+
+Obs.: 
+
+	i) Utilizando o banco padrão "No database type set, using meta data indicating: HSQL":
+
+	(https://examples.javacodegeeks.com/enterprise-java/spring/spring-batch-jobrepository-example/)
+	(https://github.com/spring-projects/spring-batch/blob/master/spring-batch-samples/src/main/resources/batch-hsql.properties)
+	Em "spring-batch-core-3.0.7.RELEASE-sources.jar" ver "batch-hsql.properties"
+
+		INFO 7548 --- [           main] o.s.b.c.r.s.JobRepositoryFactoryBean     : No database type set, using meta data indicating: HSQL
+
+	ii) Spring Boot can auto-configure embedded H2, HSQL and Derby databases. You don’t need to provide any connection URLs, simply include a build dependency to the embedded database that you want to use.
+
+		(29.1.1 Embedded Database Support)
+		https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-sql.html
+
+	<dependency>
+	    <groupId>org.hsqldb</groupId>
+	    <artifactId>hsqldb</artifactId>
+	    <scope>runtime</scope>
+	</dependency>
+
+		(https://stackoverflow.com/questions/8879636/how-to-connect-to-hsql-which-spring-creates-when-jdbcembedded-database-is-used):
+
+		$ java -cp ../lib/hsqldb.jar org.hsqldb.Server --database.0 mem:testdb --dbname.0 testdb
+
+	iii) DataSource configuration "for Batch Job repository" is controlled by external configuration properties in spring.datasource.*. For example, you might declare the following section in application.properties ("/src/main/resources/application.properties"):
+
+	Para mysql:
+
+		spring.datasource.url=jdbc:mysql://localhost/test
+		spring.datasource.username=dbuser
+		spring.datasource.password=dbpass
+		spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+	Para postgresql:
+	
+		spring.datasource.url=jdbc:postgresql://127.0.0.1/testdb
+		spring.datasource.username=postgres
+		spring.datasource.password=post
+		spring.batch.job.enabled=false
+
+	Para MariaDB:
+
+		# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+		spring.datasource.url=jdbc:mariadb://localhost:3306/batch_poc
+		spring.datasource.username=root
+		spring.datasource.password=
+		spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+		spring.datasource.max-age=10000
+		spring.datasource.initialize=false
+
+	 E colocar, no pom.xml, as dependências das libs:
+
+	<!-- 		<dependency> -->
+	<!-- 			<groupId>postgresql</groupId> -->
+	<!-- 			<artifactId>postgresql</artifactId> -->
+	<!-- 			<version>9.4.1208-jdbc42-atlassian-hosted</version> -->
+	<!-- 		</dependency> -->
+
+- Create an intermediate processor (PersonItemProcessor.java) "src/main/java/hello/batch/PersonItemProcessor.java"
+
+- Put together a batch job (BatchConfiguration.java) "src/main/java/hello/batch/BatchConfiguration.java"
+
+- Criar (JobCompletionNotificationListener.java) "src/main/java/hello/batch/JobCompletionNotificationListener.java"
+
+- Make the application executable (Application.java) "src/main/java/hello/Application.java"
+
+- Build an executable JAR:
+
+1) build the JAR file with:
+
+	$ ./mvnw clean package
+
+2) Then you can run the JAR file: 
+
+	$ java -jar target/gs-batch-processing-master-initial-mongo-0.1.0.jar
+
+3) If you are using Maven, you can run the application using:
+
+	$ ./mvnw spring-boot:run
+	
+	ou
+
+	$ ~/mvn spring-boot:run
+
+4) Utilizando h2-console 
+
+(fonte: https://github.com/jboss-developer/jboss-eap-quickstarts/tree/7.1.0.Beta/h2-console)
+
+$ wget -b -c https://github.com/jboss-developer/jboss-eap-quickstarts/blob/7.1.0.Beta/h2-console/h2console.war
+
+Colocar https://github.com/jboss-developer/jboss-eap-quickstarts/blob/7.1.0.Beta/h2-console/h2console.war no path EAP7_HOME/standalone/deployments
+
+access the console at the following URL: http://localhost:8080/h2console/
+
+You need to enter the JDBC URL, and credentials. To access the "test" database that the greeter quickstart uses, enter these details:
+    
+    Em (Setting Name) ==> ACESSAR "Generic H2 (Server)"
+    Driver Class: org.h2.Driver
+    JDBC URL: jdbc:h2:mem:test
+    User Name: sa
+    Password: sa
+
+Click on the Test Connection button to make sure you can connect. If you can, go ahead and click Connect.
+
+
+=============
+
+
+* https://github.com/spring-projects/spring-data-examples/tree/master/rest/starbucks
+
+(Technologies used)
+
+Spring Data REST & Spring Data MongoDB
+MongoDB
+Spring Batch (to read the CSV file containing the store data and pipe it into MongoDB)
+Spring Boot
+
+=============
+
+* https://github.com/eugenp/tutorials/tree/master/spring-data-mongodb
+
+=============
+
+* https://github.com/nmorel/spring-batch-extension-mongodb
+
+--> spring-batch-extension-mongodb-master.zip
+
+Obs.: 
+
+Original com
+ 		
+        <spring.batch.version>2.2.0.RELEASE</spring.batch.version>
+        <mongodb.version>2.11.1</mongodb.version>
+
+=============
+
+
+* http://walkingtechie.blogspot.com.br/2017/03/spring-batch-mongodb-xml-file.html
+
+
+"Spring Batch com Spring Data MongoDB"
+
+=============
+
+* http://walkingtechie.blogspot.com.br/2017/03/spring-batch-example-in-spring-boot-csv.html
+
+"Spring Batch com Spring Data MongoDB"
+
+=============
+
+* http://www.dineshonjava.com/2013/01/spring-data-mongodb-examples.html
+
+http://www.baeldung.com/spring-data-mongodb-tutorial
+
+=============
+
+* https://examples.javacodegeeks.com/enterprise-java/spring/spring-data-mongodb-example/
+
+=============
+
+* http://www.dineshonjava.com/2014/03/spring-batch-xml-to-mongodb-database.html
+
+--> SpringBatchXMLtoMongoDB.zip
+
+

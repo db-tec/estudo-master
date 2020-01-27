@@ -1,0 +1,221 @@
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxx Configuração MongoDB 
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+*** Configuração inicial ***
+
+- Como Instalar o MongoDB no Ubuntu 16.04:
+
+#Para versão 3.2.15:
+#(fonte: https://www.digitalocean.com/community/tutorials/como-instalar-o-mongodb-no-ubuntu-16-04-pt)
+#
+#$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
+#
+#$ echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+#
+#$ sudo apt-get update
+#
+#$ sudo apt-get install -y mongodb-org
+#
+#$ sudo nano /etc/systemd/system/mongodb.service
+
+Para versão 3.4.6:
+(fonte: https://docs.mongodb.com/master/tutorial/install-mongodb-on-ubuntu/?_ga=2.4744374.428294677.1499698545-1004286758.1499698545)
+
+$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 0C49F3730359A14518585931BC711F9BA15703C6
+
+$ echo "deb [ arch=amd64,arm64 ] http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.4.list
+
+$ sudo apt-get update
+
+$ sudo apt-get install -y mongodb-org
+
+- Como iniciar o MongoDB:
+
+$ mkdir mongodb
+
+# mkdir /var/lib/mongodb/dbs
+# mkdir /var/lib/mongodb/dbs/mongodb
+
+$ cd mongodb
+
+# cd /var/lib/mongodb/dbs/mongodb
+
+$ sudo mongod --config /etc/mongod.conf --dbpath . &
+
+#$ sudo service mongod status
+
+$ cat /var/log/mongodb/mongod.log
+$ less /var/log/mongodb/mongod.log
+
+$ mongo
+
+---
+
+Obs.: 
+
+1) "Ver se necessário": 
+
+Colocar em "/etc/systemd/system/mongodb.service":
+
+$ sudo nano /etc/systemd/system/mongodb.service
+
+[Unit]
+Description=High-performance, schema-free document-oriented database
+After=network.target
+
+[Service]
+User=mongodb
+ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf
+
+[Install]
+WantedBy=multi-user.target
+
+$ sudo systemctl start mongodb
+
+$ sudo systemctl status mongodb
+
+$ sudo systemctl enable mongodb
+
+$ sudo ufw allow 27017
+
+2) Exemplor para "https://github.com/boaglio/mongodb-casadocodigo/blob/master/capitulo-03/megasena.csv"
+
+$ mongoimport -c megasena --type csv --headerline megasena.csv
+2017-07-10T14:47:45.282-0300	connected to: localhost
+2017-07-10T14:47:45.376-0300	imported 2032 documents
+
+$ mongoimport -c megasena --type json megasena.json
+
+Obs.: "Conteudo de (megasena.json)":
+
+	{"concurso" : "100", "data" : "01/01/2001", "acertos" : "3"}
+	{"concurso" : "200", "data" : "01/01/2002", "acertos" : "3"}
+
+
+	1) Execultando container para mongoDB
+	
+		$ mkdir -p $HOME/testes/mongodb/dbs
+	
+		i) "start a mongo instance" Para acesso com bash mongo:
+			
+			$ docker run --rm -p 27017:27017 --name some-mongo -d mongo
+		
+			"connect via mongo":
+			$ docker run -it --link some-mongo:mongo --rm mongo sh -c 'exec mongo "$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test"'
+		
+		ii) "start a mongo instance" Para acesso com "~/robo3t": 
+		
+			"conectar com (localhost:27017 ou 10.32.65.142:27017)
+			$ ~/robo3t
+
+$ mongo
+
+> show dbs
+admin  0.000GB
+local  0.000GB
+test   0.000GB
+
+> use test
+switched to db test
+
+> show collections
+megasena
+
+> db.megasena.count();
+2032
+
+> db.megasena.stats();
+
+...
+
+> db.megasena.find({"Concurso" : 1}).pretty();
+
+...
+
+> db.megasena.find({"Concurso" : 1}, {"_id" : false}).pretty();
+
+...
+
+3) Exemplo *** conexão e criacao coleção/usuario ***
+
+$ mongo 127.0.0.1:27017
+
+> use benchmark
+
+> db.createUser({ user: "mongo",
+...                      pwd: "mongo",
+...                      roles:[{ role: "userAdmin",
+...                               db: "benchmark"
+...                             }]
+...                     })
+
+> db
+
+> show users
+
+> exit
+
+$ mongo 127.0.0.1:27017/benchmark --username mongo --password mongo --quiet
+
+4) Instalação "Robomongo":
+
+i. download file in https://robomongo.org/download
+
+Obs.:
+
+wget -b -c https://download.robomongo.org/1.1.1/linux/robo3t-1.1.1-linux-x86_64-c93c6b0.tar.gz
+
+ii. unzip the file to `/opt`: `tar -zxvf robo3t-1.1.1-linux-x86_64-c93c6b0.tar.gz`
+iii. cd to `/opt/robo3t-1.1.1-linux-x86_64-c93c6b0/bin`, execute `robomongo`
+iv. create a new alias in ZSH: `alias robomongo='/opt/robo3t-1.1.1-linux-x86_64-c93c6b0/bin/robomongo'`
+
+$ ~/robo3t-1.1.1-linux-x86_64-c93c6b0/bin/robo3t &
+
+Obs.: Fazer, Para corrigir o erro "This application failed to start because it could not find or load the Qt platform plugin "xcb":
+
+$ cd robo3t-1.1.1-linux-x86_64-c93c6b0
+$ mkdir robo-backup
+$ mv lib/libstdc++* robo-backup/
+$ robo3t-1.1.1-linux-x86_64-c93c6b0/bin/robo3t
+
+Obs.: Corrigindo erro fonte no robo3t:
+
+	Em "~/.3T/robo-3t/1.1.1/robo3t.json", mudar para:
+
+		 "textFontFamily" : "Ubuntu Mono",
+		 "textFontPointSize" : 12,
+
+$ cd
+$ ln -s /home/02963357460/Desenvolvimento-SINTER/ferramentas/robo3t-1.1.1-linux-x86_64-c93c6b0/bin/robo3t ~/robo3t
+
+5) Sobre conexão do mongoDB via java:
+
+http://mongodb.github.io/mongo-java-driver/
+https://github.com/mongodb/mongo-java-driver/tree/master
+https://github.com/mongodb/morphia
+
+---
+---
+
+Obs. Outros:
+
+1)Aproveitar uma interface gráfica
+
+(o Mongo Management Studio: http://www.litixsoft.de/english/mms/)
+
+http://packages.litixsoft.de/mms/1.9.4/mms-v1.9.4-community-linux.tar.gz
+
+$ lx-mms
+
+http://127.0.0.1:3333/
+
+
+Obs.: VER "Robomongo 0.8.4"
+
+2) Json formatter:
+
+https://jsonformatter.curiousconcept.com/
+
+

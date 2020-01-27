@@ -1,0 +1,115 @@
+** Arquivo de configuração do Jboss fora do Eclipse **
+
+** Para execução do Jboss:
+
+Executar no prompt (em jboss-eap-6.3/bin):
+
+$ ./standalone.sh -b 0.0.0.0
+
+** Configurações para debug:
+
+Em /jboss-eap-6.3/bin/standalone.conf, descomentar (local onde há o endereço "address=8787"):
+
+JAVA_OPTS="$JAVA_OPTS -agentlib:jdwp=transport=dt_socket,address=8787,server=y,suspend=n"
+
+No eclipse (para realizar debug), botão direito mouse sobre o projeto:
+
+Debug as...Debug Configuration...
+
+New para (Remote Java Application) com:
+
+Name:[Proje]_remote_debugt
+Port:8787
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Script para automatizar a build (via Maven) do Projeto "cadastro":
+
+No path do projeto (estudo.git/Demoiselle/cadastro):
+#!/bin/sh
+# Pasta do execultado do Jboss:
+# cd /opt/demoiselle/jboss-eap-6.3/bin
+# Pasta do projeto:
+# cd /opt/demoiselle/estudo.git/Demoiselle/cadastro
+$ ~/mvn clean install -Dmaven.test.skip=true --offline
+$ rm -rf /opt/demoiselle/jboss-eap-6.3/standalone/deployments/cadastro.war
+$ cp ./target/cadastro.war /opt/demoiselle/jboss-eap-6.3/standalone/deployments
+#END
+
+"Ou melhor":
+
+#!/bin/sh
+# Pasta do Jboss:
+export MY_JBOSS_PATH=/home/clenubio/Desenvolvimento/EAP-6.4.0
+# Nome da build do projeto:
+export PROJECT_BUILD=tutorial01.war
+~/mvn clean install -Dmaven.test.skip=true --offline
+rm -rf $MY_JBOSS_PATH/standalone/deployments/$PROJECT_BUILD
+cp ./target/$PROJECT_BUILD $MY_JBOSS_PATH/standalone/deployments
+#END
+
+$ chmod +x build.sh
+
+$ ./build.sh
+
+Obs.: no pom.xml do projeto (para ficar com o nome reduzido da build war "sem o número da versão") usar:
+
+<build>
+<!-- Para gerar a build na pasta target 
+sem o número da versão (XXXXX-0.0.1-SNAPSHOT.war) -->
+<finalName>${project.artifactId}</finalName>
+</build>
+
+************
+**Observação
+************
+
+I'm looking for an Eclipse plug-in that shows a system (independent) command line in a view that is ideally synchronized with the current project's local path. So basically a shell within Eclipse.
+
+The reason for this is to be able to execute custom build commands and script faster than specifying them as launch configurations or having to open a command prompt every time I start eclipse.
+
+==> RESPOSTAS:
+1) There is a built-in feature in Eclipse than you may find helpful. Go to Window > Show View > Other... then select Remote Systems. Unfold the tree, right-click on Local Shells and select Lauch Shell.
+--> Problema dessa 1 opção "não encontra o jdk (JAVA_HOME)" como variável de ambiente!!!
+
+2) The Terminal/ Shell Plugin in Eclipse MarketPlace does that...
+--> por exemplo o "EasyShell"
+
+3) Ctrl+Alt+Shift+T and click the "Terminal" toolbar button (plugin "TM Terminal" já instalado)
+==> A MELHOR OPÇÃO !!!!
+
+==========================
+==> Utilizando h2-console 
+==========================
+
+Ver https://github.com/jboss-developer/jboss-eap-quickstarts/tree/7.0.x-develop/h2-console (em https://github.com/jboss-developer/jboss-eap-quickstarts):
+
+NEW:
+
+https://github.com/jboss-developer/jboss-eap-quickstarts/tree/7.1.x-develop/h2-console
+
+Colocar https://github.com/jboss-developer/jboss-eap-quickstarts/blob/7.0.x-develop/h2-console/h2console.war no path do Jboss EAP (jboss-eap-6.3/standalone/deployments)...
+
+Ver outros links (referências): 
+
+https://github.com/jboss-developer/jboss-eap-quickstarts/blob/7.0.x-develop/h2-console/README.md
+http://www.h2database.com/html/quickstart.html
+http://andreyvoev.com/programming/java/jboss-initial-setup-and-datasource-configuration/
+
+---------------
+
+Deploy the console by copying the h2console.war located in the root directory of this quickstart to the EAP_HOME/standalone/deployments directory.
+Access the H2 Console
+
+You can access the console at the following URL: http://localhost:8080/h2console.
+
+You need to enter the JDBC URL, and credentials. To access the "test" database that the greeter quickstart uses, enter these details:
+    
+    Em (Setting Name) ==> ACESSAR "Generic H2 (Server)"
+    Driver Class: org.h2.Driver
+    JDBC URL: jdbc:h2:mem:test
+    User Name: sa
+    Password: sa
+
+Click on the Test Connection button to make sure you can connect. If you can, go ahead and click Connect.
+
+
